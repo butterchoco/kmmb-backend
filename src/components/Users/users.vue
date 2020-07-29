@@ -12,22 +12,6 @@
     </router-link>
   </div>
 
-  
-
-  <!-- <b-row>
-    <b-col cols="12">
-      <h2>
-        Board List
-        <b-link href="#/add-board">(Add Board)</b-link>
-      </h2>
-      <b-table striped hover :items="usersList" :fields="fields">
-        <template slot="actions" scope="row">
-          <b-btn size="sm" @click.stop="details(row.item)">Details</b-btn>
-        </template>
-      </b-table>
-    </b-col>
-  </b-row> -->
-
   <table class="table table-hover">
       <thead class="table-borderless">
           <tr class="tr-top">
@@ -77,13 +61,13 @@ import { db } from '../../firebase/firebase'
     },
 
     methods: {
-      loadUser() {
-        var userRef = db.collection('user');
+      async loadUser() {
+        var userRef = await db.collection('user');
         userRef.onSnapshot(snap => {
           this.userList = [];
           snap.forEach(doc => {
             var user =doc.data();
-            console.log("s")
+            console.log(user);
             user.id = doc.id;
             this.userList.push(user);
           })
