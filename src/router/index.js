@@ -4,13 +4,23 @@ import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
 
 import Home from '../views/Home.vue'
+
+import users from "../components/Users/users.vue"
+import addUser from "../components/Users/addUser.vue"
+
 import MainLayout from '../components/MainLayout'
+
 
 
 Vue.use(VueRouter)
 Vue.use(Vuetify)
 
   const routes = [
+   // home path
+  //  {
+  //   path:'*',
+  //   redirect:{name:'Home'}
+  // },
   {
     path: '/admin',
     name: 'main',
@@ -18,9 +28,19 @@ Vue.use(Vuetify)
     children :[
       {
         name:'Home',
-        path:'/',
+        path:'dashboard',
         component:Home
 
+      },
+      {
+        name:'users',
+        path:'users',
+        component:users,
+      },
+      {
+        name:'addUser',
+        path:'addUser',
+        component: addUser
       },
     ]
   },

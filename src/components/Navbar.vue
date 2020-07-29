@@ -1,102 +1,105 @@
 <template>
+<nav>
+    <v-navigation-drawer 
 
-    <v-navigation-drawer
-      class="red accent-4"
-      absolute
-      permanent
-      left
-
-
+    id="core-navigation-drawer"
+    :right="$vuetify.rtl"
+    app
+    mobile-break-point="960"
+    width="350"
+    class="red accent-4"
     >
-      <v-list
-          dense
-          nav
-          class="p-1"
-        >
-          <v-list-item two-line :class="miniVariant && 'px-0'">
+        <v-list
+        dense
+        nav class="p-1">
+        <v-list-item two-line>
 
             <v-list-item-content>
-              <v-list-item-title class="white--text title">KMMB</v-list-item-title>
-              <v-list-item-subtitle class="white--text">Admin Site</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item-group>
-
-            <v-list-item  router :to="'/admin'">
-                <v-list-item-action>
-                    <v-icon class="white--text">mdi-view-dashboard</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="white--text">Dashboard</v-list-item-title>
-                </v-list-item-content>
+                <v-list-item-title class="white--text title">KMMB</v-list-item-title>
+                <v-list-item-subtitle class="white--text">Admin Site</v-list-item-subtitle>
+              </v-list-item-content>
             </v-list-item>
 
-            <v-list-item  router :to="'/admin'">
-                <v-list-item-action>
-                    <v-icon class="white--text">mdi-account-group</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="white--text">Users</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item  router :to="'/admin'">
-                <v-list-item-action>
-                    <v-icon class="white--text">mdi-calendar</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="white--text">Event</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item  router :to="'/admin'">
-                <v-list-item-action>
-                    <v-icon class="white--text">mdi-account-tie-voice</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="white--text">Speaker</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item  router :to="'/admin'">
-                <v-list-item-action>
-                    <v-icon class="white--text">mdi-cash-multiple</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="white--text">Sponsor</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item  router :to="'/admin'">
-                <v-list-item-action>
-                    <v-icon class="white--text">mdi-newspaper-variant</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="white--text">Media Partner</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item  router :to="'/admin'">
-                <v-list-item-action>
-                    <v-icon class="white--text">mdi-timeline-check</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="white--text">Timeline</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
-
-
-          </v-list-item-group>
-
-          
-
-          
         </v-list>
 
-      
+         
+        <v-list
+        expand
+        nav>
+            <v-list-item-group>
+
+              <v-list-item  router :to="'/admin/dashboard'">
+                  <v-list-item-action>
+                      <v-icon class="white--text">mdi-view-dashboard</v-icon>
+                  </v-list-item-action>
+                  <v-list-item-content>
+                      <v-list-item-title class="white--text">Dashboard</v-list-item-title>
+                  </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item  router :to="'/admin/users'">
+                  <v-list-item-action>
+                      <v-icon class="white--text">mdi-account-group</v-icon>
+                  </v-list-item-action>
+                  <v-list-item-content>
+                      <v-list-item-title class="white--text">Users</v-list-item-title>
+                  </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item  router :to="'/admin'">
+                  <v-list-item-action>
+                      <v-icon class="white--text">mdi-calendar</v-icon>
+                  </v-list-item-action>
+                  <v-list-item-content>
+                      <v-list-item-title class="white--text">Event</v-list-item-title>
+                  </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item  router :to="'/admin'">
+                  <v-list-item-action>
+                      <v-icon class="white--text">mdi-account-tie-voice</v-icon>
+                  </v-list-item-action>
+                  <v-list-item-content>
+                      <v-list-item-title class="white--text">Speaker</v-list-item-title>
+                  </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item  router :to="'/admin'">
+                  <v-list-item-action>
+                      <v-icon class="white--text">mdi-cash-multiple</v-icon>
+                  </v-list-item-action>
+                  <v-list-item-content>
+                      <v-list-item-title class="white--text">Sponsor</v-list-item-title>
+                  </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item  router :to="'/admin'">
+                  <v-list-item-action>
+                      <v-icon class="white--text">mdi-newspaper-variant</v-icon>
+                  </v-list-item-action>
+                  <v-list-item-content>
+                      <v-list-item-title class="white--text">Media Partner</v-list-item-title>
+                  </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item  router :to="'/admin'">
+                  <v-list-item-action>
+                      <v-icon class="white--text">mdi-timeline-check</v-icon>
+                  </v-list-item-action>
+                  <v-list-item-content>
+                      <v-list-item-title class="white--text">Timeline</v-list-item-title>
+                  </v-list-item-content>
+              </v-list-item>
+
+
+
+            </v-list-item-group>
+        </v-list>
     </v-navigation-drawer>
+
+</nav>
+
+    
 
 </template>
 
@@ -104,12 +107,53 @@
   export default {
     data () {
       return {
-        items: [
-          { title: 'Home', icon: 'mdi-home-city' },
-          { title: 'My Account', icon: 'mdi-account' },
-          { title: 'Users', icon: 'mdi-account-group-outline' },
-        ],
+        
       }
     },
   }
 </script>
+
+<style lang="sass" scoped>
+ @import '~vuetify/src/styles/tools/_rtl.sass'
+
+ #core-navigation-drawer
+    .v-list-group__header.v-list-item--active:before
+      opacity: .24
+    .v-list-item
+      &__icon--text,
+      &__icon:first-child
+        justify-content: center
+        text-align: center
+        width: 20px
+        +ltr()
+          margin-right: 24px
+          margin-left: 12px !important
+        +rtl()
+          margin-left: 24px
+          margin-right: 12px !important
+    .v-list--dense
+      .v-list-item
+        &__icon--text,
+        &__icon:first-child
+          margin-top: 10px
+    .v-list-group--sub-group
+      .v-list-item
+        +ltr()
+          padding-left: 8px
+        +rtl()
+          padding-right: 8px
+      .v-list-group__header
+        +ltr()
+          padding-right: 0
+        +rtl()
+          padding-right: 0
+        .v-list-item__icon--text
+          margin-top: 19px
+          order: 0
+        .v-list-group__header__prepend-icon
+          order: 2
+          +ltr()
+            margin-right: 8px
+          +rtl()
+            margin-left: 8px
+</style>
