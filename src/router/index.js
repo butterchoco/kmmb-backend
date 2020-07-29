@@ -50,7 +50,7 @@ Vue.use(Vuetify)
         component: detailUser
       },
       {
-        path: 'editUser/:id',
+        path: 'user/edit/:id',
         name: 'editUser',
         component: editUser
       },

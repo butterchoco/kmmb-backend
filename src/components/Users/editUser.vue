@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="mt-5 mb-3">
-        <h1>Add New user</h1>
+        <h1>Edit user</h1>
     </div>
 
     <br />
@@ -91,12 +91,12 @@
 
 
           <div class="form-group">
-            <div class="mb-2 label">Address 1</div>
+            <div class="mb-2 label">Main Adress</div>
             <input class="form-control" v-model="user.address1" id="address1" placeholder="Jalan Alamat 1 No. 1 ..." />
           </div>
 
           <div class="form-group">
-            <div class="mb-2 label">Address 2</div>
+            <div class="mb-2 label">Secondary Address (if any)</div>
             <input class="form-control" v-model="user.address2" id="address2" placeholder="Jalan Alamat 2 No. 1 ..." />
           </div>
 
@@ -136,27 +136,29 @@
 </template>
 
 <script>
+import moment from 'moment'
+
+import { db } from "../../firebase/firebase"
 export default {
     name : "editUser",
     data(){
         return{
-            user:{
-                activeStudentCard:"",
-                address1:"",
-                address2:"",
-                birthdate:"",
-                email:"",
-                faculty:"",
-                fullName:"",
-                gender:"",
-                generation:"",
-                phone:"",
-                role:"",
-                studyProgram:"",
-                university:"",
-                isProposalUploaded : false,
-                isVerified : false
-            },      
+            user:{},
+            // activeStudentCard:"",
+            // address1:"",
+            // address2:"",
+            // birthdate:"",
+            // email:"",
+            // faculty:"",
+            // fullName:"",
+            // gender:"",
+            // generation:"",
+            // phone:"",
+            // role:"",
+            // studyProgram:"",
+            // university:"",
+            // isProposalUploaded : false,
+            // isVerified : false,   
             errors:[],
             
         }
@@ -180,6 +182,20 @@ export default {
         fetchData(){
             db.collection('user').doc(this.$route.params.id).get().then(doc => {
                 this.user = doc.data();
+                // this.activeStudentCard = doc.data().activeStudentCard;
+                // this.address1 = doc.data().address1;
+                // this.role = doc.data().role;
+                // this.studyProgram = doc.data().studyProgram;
+                // this.university = doc.data().university;
+                // // this.user.isProposalUploaded = doc.data().isProposalUploaded;
+                // // this.user.isVerified = doc.data().isVerified;
+                // this.address2 = doc.data().address2;
+                // this.birthdate = doc.data().birthdate;
+                // this.faculty = doc.data().faculty;
+                // this.fullName = doc.data().fullName;
+                // this.gender = doc.data().gender;
+                // this.generation = doc.data().generation;
+                // this.phone = doc.data().phone;
             })
         },
         validateAndSubmit(e){
@@ -193,7 +209,7 @@ export default {
                 activeStudentCard:this.user.activeStudentCard,
                 address1:this.user.address1,
                 address2:this.user.address2,
-                birthdate:moment(this.user.birthdate).format("DD MMMM YYYY"),
+                birthdate:moment(this.birthdate).format("DD MMMM YYYY"),
                 email:this.user.email,
                 faculty:this.user.faculty,
                 fullName:this.user.fullName,

@@ -91,12 +91,12 @@
 
 
           <div class="form-group">
-            <div class="mb-2 label">Address 1</div>
+            <div class="mb-2 label">Main Address</div>
             <input class="form-control" v-model="user.address1" id="address1" placeholder="Jalan Alamat 1 No. 1 ..." />
           </div>
 
           <div class="form-group">
-            <div class="mb-2 label">Address 2</div>
+            <div class="mb-2 label">Secondary Address (if any)</div>
             <input class="form-control" v-model="user.address2" id="address2" placeholder="Jalan Alamat 2 No. 1 ..." />
           </div>
 

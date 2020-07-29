@@ -81,6 +81,24 @@
             </b-card-body>
         </b-card>
     </v-card>
+    <div class="mt-3">
+        <button class="btn btn-outline-light" v-b-modal.modal-1>
+            <v-icon>mdi-delete</v-icon>
+            <span style="color:#000000">Delete User</span>
+        </button>
+    </div>
+
+    <b-modal ref="modal" id="modal-1" title="Confrimation Delete User" v-bind:hide-footer="true">
+        <div class="detail">
+            <p class="title">This user will be deleted ? </p>
+            <hr>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-danger mr-2" @click="deleteUser()">Delete</button>
+                <button class="btn btn-light" @click="hideModal">Cancel</button>
+            </div>
+        </div>
+    </b-modal>
+
   </v-container>
 </template>
 
@@ -112,8 +130,17 @@ export default {
             })
         },
         updateUser(){
-            window.location.href= "/admin/editUser/"+this.$route.params.id;
+            window.location.href= "/admin/user/edit/"+this.$route.params.id;
         },
+
+        deleteUser(){
+            db.collection('user').doc(this.$route.params.id).delete().then(() =>{
+                this.$router.push("/admin/users");
+            })
+        },
+
+
+        
         // async setStatusUploaded(){
         //     console.log(this.proposalStatus);
         //     await db.collection('user').doc(this.$route.params.id).update({
@@ -124,9 +151,9 @@ export default {
         //     this.hideModal();
 
         // },
-        // hideModal(){
-        //   this.$refs['modal'].hide();
-        // },
+        hideModal(){
+          this.$refs['modal'].hide();
+        },
     }
 
 }
