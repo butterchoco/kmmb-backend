@@ -113,7 +113,7 @@
           
 
           <div class="btn-group">
-            <button type="submit" class="btn btn-danger mr-2" :disabled=isDisable()>Save</button>
+            <button type="submit" class="btn btn-danger mr-2">Save</button>
             <button class="btn btn-light" @click="batal">Cancel</button>
           </div>
     
@@ -127,7 +127,7 @@
     <b-modal size="lg" ref="modalOk" hide-footer>
         <div class="container">
             <div class="d-block text-center">
-              <h4>Add User Succsess</h4>
+              <h4>Edit User Succsess</h4>
             </div>
         </div>
     </b-modal>
@@ -136,11 +136,8 @@
 </template>
 
 <script>
-import moment from 'moment'
-
-import { db } from "../../firebase/firebase"
 export default {
-    name : "addUser",
+    name : "editUser",
     data(){
         return{
             user:{
@@ -157,13 +154,14 @@ export default {
                 role:"",
                 studyProgram:"",
                 university:"",
-            },
+                isProposalUploaded : false,
+                isVerified : false
+            },      
             errors:[],
             
         }
     },
-
-    computed:{
+    computed: {
         birthdateValid(){
             if(this.user.birthdate == ""){
                 return null;
@@ -178,23 +176,11 @@ export default {
         },
     },
 
-    methods: {
-        
-        isDisable(){
-            if(this.user.activeStudentCard == ""){return true;}
-            if(this.user.address1 == ""){return true;}
-            if(this.birthdateValid == null || !this.birthdateValid){return true;}
-            if(this.user.role == ""){return true;}
-            if(this.user.studyProgram == ""){return true;}
-            if(this.user.university == ""){return true;}
-            if(this.user.email == ""){return true;}
-            if(this.user.faculty == ""){return true;}
-            if(this.user.fullName == ""){return true;}
-            if(this.user.gender == ""){return true;}
-            if(this.user.generation == ""){return true;}
-            if(this.user.phone == ""){return true;}
- 
-            return false;
+    methods:{
+        fetchData(){
+            db.collection('user').doc(this.$route.params.id).get().then(doc => {
+                this.user = doc.data();
+            })
         },
         validateAndSubmit(e){
             e.preventDefault();
@@ -203,7 +189,7 @@ export default {
                 this.errors.push("Your Birthdate is Invalid");
             }
             if(this.errors.length === 0){
-              db.collection('user').add({
+              db.collection('user').update({
                 activeStudentCard:this.user.activeStudentCard,
                 address1:this.user.address1,
                 address2:this.user.address2,
@@ -217,8 +203,8 @@ export default {
                 role:this.user.role,
                 studyProgram:this.user.studyProgram,
                 university:this.user.university,
-                isProposalUploaded : false,
-                isVerified : false,
+                isProposalUploaded : this.user.isProposalUploaded,
+                isVerified : this.user.isVerified,
             }).then(() => {
                 this.openModal()
               });
@@ -235,14 +221,7 @@ export default {
         batal(){
           this.$router.push("/admin/users");
         }
-
-
-
     }
-
+    
 }
 </script>
-
-<style>
-
-</style>

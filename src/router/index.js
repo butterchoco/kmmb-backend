@@ -7,6 +7,8 @@ import Home from '../views/Home.vue'
 
 import users from "../components/Users/users.vue"
 import addUser from "../components/Users/addUser.vue"
+import detailUser from "../components/Users/detailUser.vue"
+import editUser from "../components/Users/editUser.vue"
 
 import MainLayout from '../components/MainLayout'
 
@@ -41,6 +43,16 @@ Vue.use(Vuetify)
         name:'addUser',
         path:'addUser',
         component: addUser
+      },
+      {
+        path: 'user/:id',
+        name: 'detailUser',
+        component: detailUser
+      },
+      {
+        path: 'editUser/:id',
+        name: 'editUser',
+        component: editUser
       },
     ]
   },

@@ -1,0 +1,137 @@
+<template>
+  <v-container>
+    <v-card>
+        <b-card>
+            <b-card-text>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-8">
+                        <h2 id="judul">
+                            {{user.fullName}} ({{user.role}}) 
+                            <b-badge v-if="user.isVerified" variant="primary">
+                            Verified
+                            </b-badge>
+                        </h2>
+                    </div>
+
+     
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="d-flex justify-content-end">
+                            <button class="btn  btn-outline-danger " v-on:click="updateUser()" id="updateUser"><span id="update">Update User</span></button>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div>
+                    <h6 id="college">{{user.studyProgram}}, {{user.faculty}}</h6>
+                    <h6>{{user.university}}</h6>
+                </div>
+
+
+                <hr>
+                <table class="table table-hover table-borderless">
+                    
+                    <tbody class="tbody">
+                        <tr class="content">
+                            <td><strong style="color:#C53751">Student Active Number</strong> </td>
+                            <td class="justify-start">{{user.activeStudentCard}}</td>
+                        </tr>
+                        <tr class="content">
+                            <td><strong style="color:#C53751">Generation</strong> </td>
+                            <td class="justify-start">{{user.generation}}</td>
+                        </tr>                        
+                        <tr class="content">
+                            <td><strong style="color:#C53751">Phone Number</strong> </td>
+                            <td class="justify-start">{{user.phone}}</td>
+                        </tr>
+                        <tr class="content">
+                            <td><strong style="color:#C53751">Email</strong> </td>
+                            <td class="justify-start">{{user.email}}</td>
+                        </tr>
+                        <tr class="content">
+                            <td><strong style="color:#C53751">Main Address</strong> </td>
+                            <td class="justify-start">{{user.address1}}</td>
+                        </tr>
+                        <tr class="content" v-if="user.address != null">
+                            <td><strong style="color:#C53751">Secondary Address</strong> </td>
+                            <td class="justify-start">{{user.address2}}</td>
+                        </tr>
+                        <tr class="content">
+                            <td><strong style="color:#C53751">Birthdate</strong> </td>
+                            <td class="justify-start">{{user.birthdate}}</td>
+                        </tr>
+                        <tr class="content">
+                            <td><strong style="color:#C53751">Gender</strong> </td>
+                            <td class="justify-start">{{user.gender}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </b-card-text>
+        </b-card>
+    </v-card>
+    <v-card>
+        <b-card>
+            <b-card-body>
+                <div>
+                    <span v-if="user.isProposalUploaded" style="color: #008000">This user has uploaded the proposal</span>
+                    <span v-if="!user.isProposalUploaded" style="color:	#FF0000">This user has not uploaded the proposal</span>
+                </div>
+                
+            </b-card-body>
+        </b-card>
+    </v-card>
+  </v-container>
+</template>
+
+<script>
+import { db } from '../../firebase/firebase'
+
+export default {
+    name:"UserDetail",
+    data(){
+        return{
+            user:{},
+            options :[
+                {text: 'Has Uploaded', value: true},
+                {text: 'Has Not Uploaded', value: false}
+            ],
+            proposalStatus : false,      
+        }
+    },
+    created(){
+        this.fetchData();
+    },
+    watch:{
+        "$route": "fetchData"
+    },
+    methods:{
+        fetchData(){
+            db.collection('user').doc(this.$route.params.id).get().then(doc => {
+                this.user = doc.data();
+            })
+        },
+        updateUser(){
+            window.location.href= "/admin/editUser/"+this.$route.params.id;
+        },
+        // async setStatusUploaded(){
+        //     console.log(this.proposalStatus);
+        //     await db.collection('user').doc(this.$route.params.id).update({
+        //         isProposalUploaded : this.proposalStatus
+        //     });
+               
+
+        //     this.hideModal();
+
+        // },
+        // hideModal(){
+        //   this.$refs['modal'].hide();
+        // },
+    }
+
+}
+</script>
+
+<style>
+
+</style>
