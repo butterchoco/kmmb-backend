@@ -110,6 +110,35 @@
             <input class="form-control" v-model="user.email" id="email" placeholder="email@email.com" />
           </div>
 
+          <div class="row">
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    <div class="radio">
+                        <div class="label">Uploaded Proposal</div>
+                        <input type="radio" name="isProposalUploaded" v-model="user.isPropsoalUploaded" value=true> Yes
+                        <br>
+                        <input type="radio" name="gender" v-model="user.gender" value=false> No
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    <div class="radio">
+                        <div class="label">Verified User</div>
+                        <input type="radio" name="isVerified" v-model="user.isVerified" value=true> Yes
+                        <br>
+                        <input type="radio" name="isVerified" v-model="user.isverified" value=false> No
+                    </div>
+                </div>
+
+            </div>
+          </div>
+
+            
+
+            
           
 
           <div class="btn-group">
@@ -205,37 +234,88 @@ export default {
                 this.errors.push("Your Birthdate is Invalid");
             }
             if(this.errors.length === 0){
-              db.collection('user').update({
-                activeStudentCard:this.user.activeStudentCard,
-                address1:this.user.address1,
-                address2:this.user.address2,
-                birthdate:moment(this.birthdate).format("DD MMMM YYYY"),
-                email:this.user.email,
-                faculty:this.user.faculty,
-                fullName:this.user.fullName,
-                gender:this.user.gender,
-                generation:this.user.generation,
-                phone:this.user.phone,
-                role:this.user.role,
-                studyProgram:this.user.studyProgram,
-                university:this.user.university,
-                isProposalUploaded : this.user.isProposalUploaded,
-                isVerified : this.user.isVerified,
-            }).then(() => {
-                this.openModal()
-              });
+                if(this.user.address2 != null){
+                    if(this.user.isProposalUploaded == "true"){
+                        this.user.isProposalUploaded = true;
+                    }   
+                    else{
+                        this.user.isProposalUploaded =false;
+                    }
+
+                    if(this.user.isVerified == "true"){
+                        this.user.isVerified = true;
+                    }   
+                    else{
+                        this.user.isVerified =false;
+                    }
+
+                    db.collection('user').doc(this.$route.params.id).update({
+                        activeStudentCard:this.user.activeStudentCard,
+                        address1:this.user.address1,
+                        address2:this.user.address2,
+                        birthdate:moment(this.birthdate).format("DD MMMM YYYY"),
+                        email:this.user.email,
+                        faculty:this.user.faculty,
+                        fullName:this.user.fullName,
+                        gender:this.user.gender,
+                        generation:this.user.generation,
+                        phone:this.user.phone,
+                        role:this.user.role,
+                        studyProgram:this.user.studyProgram,
+                        university:this.user.university,
+                        isProposalUploaded : this.user.isProposalUploaded,
+                        isVerified : this.user.isVerified,
+                    }).then(() => {
+                        this.openModal()
+                    });
+
+                }else{
+                    if(this.user.isProposalUploaded == "true"){
+                        this.user.isProposalUploaded = true;
+                    }   
+                    else{
+                        this.user.isProposalUploaded =false;
+                    }
+
+                    if(this.user.isVerified == "true"){
+                        this.user.isVerified = true;
+                    }   
+                    else{
+                        this.user.isVerified =false;
+                    }
+
+                    db.collection('user').doc(this.$route.params.id).update({
+                        activeStudentCard:this.user.activeStudentCard,
+                        address1:this.user.address1,
+                        birthdate:moment(this.birthdate).format("DD MMMM YYYY"),
+                        email:this.user.email,
+                        faculty:this.user.faculty,
+                        fullName:this.user.fullName,
+                        gender:this.user.gender,
+                        generation:this.user.generation,
+                        phone:this.user.phone,
+                        role:this.user.role,
+                        studyProgram:this.user.studyProgram,
+                        university:this.user.university,
+                        isProposalUploaded : this.user.isProposalUploaded,
+                        isVerified : this.user.isVerified,
+                    }).then(() => {
+                        this.openModal()
+                    });
+                }
+            
             }
 
         },
         openModal() {
             this.$refs['modalOk'].show();
             window.setTimeout(function() {
-                window.location.href = "/admin/users";
+                window.location.href = "/admin/user/" + this.$route.params.id;
             }, 2000);
         },
 
         batal(){
-          this.$router.push("/admin/users");
+          this.$router.push("/admin/user/" + this.$route.params.id);
         }
     }
     
