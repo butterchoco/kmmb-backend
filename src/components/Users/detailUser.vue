@@ -130,7 +130,7 @@ export default {
             })
         },
         updateUser(){
-            window.location.href= "/admin/user/edit/"+this.$route.params.id;
+            this.$router.push("/admin/user/edit/"+this.$route.params.id);
         },
 
         deleteUser(){

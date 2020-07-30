@@ -309,8 +309,8 @@ export default {
         },
         openModal() {
             this.$refs['modalOk'].show();
-            window.setTimeout(function() {
-                window.location.href = "/admin/user/" + this.$route.params.id;
+            window.setTimeout(() => {
+                this.$route.push("/admin/user/" + this.$route.params.id);
             }, 2000);
         },
 

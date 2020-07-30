@@ -227,8 +227,8 @@ export default {
         },
         openModal() {
             this.$refs['modalOk'].show();
-            window.setTimeout(function() {
-                window.location.href = "/admin/users";
+            window.setTimeout(() => {
+                this.$router.push("/admin/users");
             }, 2000);
         },
 
