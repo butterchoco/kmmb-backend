@@ -1,11 +1,12 @@
 <template>
 <nav>
     <v-navigation-drawer 
-
+    permanent="permanent"
     id="core-navigation-drawer"
     :right="$vuetify.rtl"
     style="background-color:#1B262C"
     app
+    mobile-break-point="960"
     width="350"
     >
         <v-list
@@ -120,7 +121,8 @@ import {auth} from "../firebase/firebase"
   export default {
     data () {
       return {
-        
+        permanent : true,
+      
       }
     },
     methods:{

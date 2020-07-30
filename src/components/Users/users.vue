@@ -76,10 +76,12 @@ import { db } from '../../firebase/firebase'
         
       },
 
+
       click(user){
         this.$router.push("/admin/user" + user.id);
 
       },
+
 
       add(){
           this.counter2 ++;

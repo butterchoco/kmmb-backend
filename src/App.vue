@@ -1,9 +1,9 @@
 <template>
   <div id="app" class="app">
   <v-app>
-    <v-content>
+    <v-main>
        <router-view></router-view>
-    </v-content>
+    </v-main>
   </v-app>
   </div>
 </template>
@@ -23,3 +23,12 @@ export default {
   }),
 };
 </script>
+<style lang="scss">
+table {
+  tbody {
+    tr {
+      cursor: pointer;
+    }
+  }
+}
+</style>
