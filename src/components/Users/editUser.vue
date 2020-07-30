@@ -207,9 +207,14 @@ export default {
         },
     },
 
+    created() {
+      this.fetchData();
+    },
+
     methods:{
         fetchData(){
             db.collection('user').doc(this.$route.params.id).get().then(doc => {
+              console.log(doc.data())
                 this.user = doc.data();
                 // this.activeStudentCard = doc.data().activeStudentCard;
                 // this.address1 = doc.data().address1;
@@ -309,8 +314,8 @@ export default {
         },
         openModal() {
             this.$refs['modalOk'].show();
-            window.setTimeout(function() {
-                window.location.href = "/admin/user/" + this.$route.params.id;
+            window.setTimeout(() => {
+                this.$router.push("/admin/user/" + this.$route.params.id);
             }, 2000);
         },
 

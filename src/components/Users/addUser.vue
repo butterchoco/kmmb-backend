@@ -207,7 +207,7 @@ export default {
                 activeStudentCard:this.user.activeStudentCard,
                 address1:this.user.address1,
                 address2:this.user.address2,
-                birthdate:moment(this.user.birthdate).format("DD MMMM YYYY"),
+                birthdate:moment(this.user.birthdate).format("YYYY-MM-DD"),
                 email:this.user.email,
                 faculty:this.user.faculty,
                 fullName:this.user.fullName,
@@ -227,8 +227,8 @@ export default {
         },
         openModal() {
             this.$refs['modalOk'].show();
-            window.setTimeout(function() {
-                window.location.href = "/admin/users";
+            window.setTimeout(() => {
+                this.$router.push("/admin/users");
             }, 2000);
         },
 

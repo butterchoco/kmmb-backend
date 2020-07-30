@@ -78,7 +78,7 @@ import { db } from '../../firebase/firebase'
 
       click: function (user) {
             // console.log("Clicked with "+ req.id);
-            window.location.href= "/admin/user/"+user.id;
+            this.$router.push("/admin/user/"+user.id);
         },
 
       add(){
