@@ -1,0 +1,236 @@
+<template>
+
+<div id="login">
+    
+    <div class="card card-container">
+        <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+        <h3 class="text-center">Login</h3>
+        <p id="profile-name" class="profile-name-card"></p>
+        <form class="form-signin">
+            <span id="reauth-email" class="reauth-email"></span>
+            <input v-model="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+            <input v-model="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            
+            <br/>
+            <button @click="login" class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Log in</button>
+            <div id="register-link" class="text-right">
+                <p>Don't have an account ? <router-link to="/admin/auth/signup">Create one</router-link></p>
+            </div>
+        </form><!-- /form -->
+        <p class="text-center">or</p>
+        <button @click="googleLogin" class="btn btn-lg btn-primary btn-block btn-signinGoogle" type="submit">log in with google</button>
+        
+    </div><!-- /card-container -->
+</div>
+  
+</template>
+
+<script>
+import firebase from "firebase"
+// import firebaseui from "firebaseui"
+// import "firebaseui/dist/firebaseui.css"
+
+import { auth } from "../../firebase/firebase"
+
+
+export default {
+    name: "login",
+    data(){
+        return {
+            email:"",
+            password:"",
+        };
+    },
+    methods:{
+        login: function() {
+            auth.signInWithEmailAndPassword(this.email, this.password).then(
+                function(user){
+                console.log(user.user.email);
+                alert('Your are now sign in')
+                this.$router.replace('dashboard')
+            }).catch(function (error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                if (errorCode == 'auth/invalid-email') {
+                    alert('Email is invalid');
+                }else {
+                    alert(errorMessage);
+                }
+                
+                console.log(error);
+            });
+    
+        },
+        googleLogin(){
+            const provider = new firebase.auth.GoogleAuthProvider();
+
+            auth.signInWithPopup(provider).then((result) =>{
+                console.log(result.user.uid);
+                this.$router.push('/admin/dashboard');
+            }).catch((err) => {
+                alert('Oops. ' + err.message);
+            });
+        }
+    }
+    
+
+}
+</script>
+
+<style>
+.save-btn{
+  background-color: #3282B8;
+  color: white;
+}
+/* 
+#login .container #login-row #login-column #login-box {
+  margin-top: 120px;
+  max-width: 600px;
+  height: 320px;
+  
+  background-color: #EAEAEA;
+}
+#login .container #login-row #login-column #login-box #login-form {
+  padding: 20px;
+}
+#login .container #login-row #login-column #login-box #login-form #register-link {
+  margin-top: -85px;
+} */
+/*
+ * Specific styles of signin component
+ */
+/*
+ * General styles
+ */
+
+.card-container.card {
+    max-width: 350px;
+    padding: 40px 40px;
+}
+
+
+/*
+ * Card component
+ */
+.card {
+    background-color: #F7F7F7;
+    /* just in case there no content*/
+    padding: 20px 25px 30px;
+    margin: 0 auto 25px;
+    margin-top: 50px;
+    /* shadows and rounded borders */
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    /* box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3); */
+}
+
+.profile-img-card {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 10px;
+    display: block;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+}
+
+/*
+ * Form styles
+ */
+
+.reauth-email {
+    display: block;
+    color: #404040;
+    line-height: 2;
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.form-signin #inputEmail,
+.form-signin #inputPassword {
+    direction: ltr;
+    height: 44px;
+    font-size: 16px;
+}
+
+.form-signin input[type=email],
+.form-signin input[type=password],
+.form-signin input[type=text],
+.form-signin button {
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+    z-index: 1;
+    position: relative;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.form-signin .form-control:focus {
+    border-color: rgb(104, 145, 162);
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+}
+
+.btn.btn-signin {
+    /*background-color: #4d90fe; */
+    background-color: #56a4d8;
+    /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
+    padding: 0px;
+    font-weight: 700;
+    font-size: 14px;
+    height: 36px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: none;
+    -o-transition: all 0.218s;
+    -moz-transition: all 0.218s;
+    -webkit-transition: all 0.218s;
+    transition: all 0.218s;
+}
+
+.btn.btn-signin:hover,
+.btn.btn-signin:active,
+.btn.btn-signin:focus {
+    background-color: #3282B8;
+}
+
+.btn.btn-signinGoogle {
+    /*background-color: #4d90fe; */
+    background-color: #4285f4;
+    /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
+    padding: 0px;
+    font-weight: 700;
+    font-size: 14px;
+    height: 36px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: none;
+    -o-transition: all 0.218s;
+    -moz-transition: all 0.218s;
+    -webkit-transition: all 0.218s;
+    transition: all 0.218s;
+}
+
+.btn.btn-signinGoogle:hover,
+.btn.btn-signinGoogle:active,
+.btn.btn-signinGoogle:focus {
+    background-color: #1669F2;
+}
+
+
+</style>

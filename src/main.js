@@ -15,7 +15,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
 
 // import store from './store'
-// import { auth } from './firebase/firebase'
+import { auth } from './firebase/firebase'
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
@@ -24,9 +24,14 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueMaterial)
 
-new Vue({
-  router,
-  vuetify,
-  render: h => h(App)
-}).$mount('#app')
+let app ='';
+auth.onAuthStateChanged(() => {
+  if(!app){
+    app = new Vue({
+      router,
+      vuetify,
+      render: h => h(App)
+    }).$mount('#app')
+  }
+})
 
