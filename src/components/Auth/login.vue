@@ -13,9 +13,7 @@
             
             <br/>
             <button @click="login" class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Log in</button>
-            <div id="register-link" class="text-right">
-                <p>Don't have an account ? <router-link to="/admin/auth/signup">Create one</router-link></p>
-            </div>
+            
         </form><!-- /form -->
         <p class="text-center">or</p>
         <button @click="googleLogin" class="btn btn-lg btn-primary btn-block btn-signinGoogle" type="submit">log in with google</button>
