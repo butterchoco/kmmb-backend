@@ -28,8 +28,9 @@
         <button
           @click="login"
           class="btn btn-lg btn-primary btn-block btn-signin"
-          type="submit"
-        >Log in</button>
+          type="submit">
+          Log in
+          </button>
         <div id="register-link" class="text-right">
           <p>
             Don't have an account ?
@@ -42,8 +43,9 @@
       <button
         @click="googleLogin"
         class="btn btn-lg btn-primary btn-block btn-signinGoogle"
-        type="submit"
-      >log in with google</button>
+        type="submit">
+        log in with google
+        </button>
     </div>
     <!-- /card-container -->
   </div>
@@ -66,64 +68,40 @@ export default {
       password: "",
     };
   },
-  methods: {
-    login(e) {
-      console.log(e);
-      e.preventDefault();
-      auth
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then((user) => {
-          console.log(user.user.email);
-          alert("Your are now sign in");
-          this.$router.push('/admin/dashboard')
-        })
-        .catch(function (error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          if (errorCode == "auth/invalid-email") {
-            alert("Email is invalid");
-          } else {
-            alert(errorMessage);
-          }
+  
+  methods:{
+      login(e) {
+          e.preventDefault();
+          auth.signInWithEmailAndPassword(this.email, this.password).then(
+              (user) =>{
+              console.log(user.user.email);
+              alert('Your are now sign in');
+              this.$router.push('/admin/dashboard');
+          }).catch(function (error) {
+              // Handle Errors here.
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              if (errorCode == 'auth/invalid-email') {
+                  alert('Email is invalid');
+              }else {
+                  alert(errorMessage);
+              }
+              
+              console.log(error);
+          });
+  
+      },
+      googleLogin(){
+          const provider = new firebase.auth.GoogleAuthProvider();
 
-          console.log(error);
-        });
-    },
-
-    methods:{
-        login(e) {
-            e.preventDefault();
-            auth.signInWithEmailAndPassword(this.email, this.password).then(
-               (user) =>{
-                console.log(user.user.email);
-                alert('Your are now sign in');
-                this.$router.push('/admin/dashboard');
-            }).catch(function (error) {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                if (errorCode == 'auth/invalid-email') {
-                    alert('Email is invalid');
-                }else {
-                    alert(errorMessage);
-                }
-                
-                console.log(error);
-            });
-    
-        },
-        googleLogin(){
-            const provider = new firebase.auth.GoogleAuthProvider();
-
-            auth.signInWithPopup(provider).then((result) =>{
-                console.log(result.user.email);
-                this.$router.push('/admin/dashboard');
-            }).catch((err) => {
-                alert('Oops. ' + err.message);
-            });
-        }
-    }
+          auth.signInWithPopup(provider).then((result) =>{
+              console.log(result.user.email);
+              this.$router.push('/admin/dashboard');
+          }).catch((err) => {
+              alert('Oops. ' + err.message);
+          });
+      }
+  
   },
 };
 </script>

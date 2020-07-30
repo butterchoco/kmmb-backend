@@ -25,7 +25,7 @@
           </tr>
       </thead>
       <tbody class="tbody">
-          <tr v-for="(user,index) in userList" :key="user.id" v-on:click="click(user)"  class="content">
+          <tr v-for="(user,index) in userList" :key="user.id"  v-b-modal.modal-1 @click="click(user.id)"  class="content">
               <th scope=row class="th-bottom" v-bind="add()">{{index+1}}</th>
               <td>{{user.fullName}}</td>
               <td>{{user.studyProgram}}</td>
@@ -36,6 +36,173 @@
           </tr>
       </tbody>
   </table>
+
+  <b-modal ref="modalDetail" id="modal-1" title="Detail User" v-bind:hide-footer="true">
+      <div class="card">
+      <div class="card-header">Detail User</div>
+      <div class="card-body">
+        <form @submit.prevent="validateAndSubmit">
+          <div v-if="errors.length">
+                <div 
+                class="alert alert-warning" 
+                v-bind:key="index" 
+                v-for="(error,index) in errors">{{error}}</div>
+          </div>
+
+
+          
+          <div class="form-group">
+            <div class="mb-2 label">Nama Lengkap</div>
+            <input class="form-control" v-model="target.fullName" id="fullName" placeholder="Fullname" />
+          </div>
+
+            <div class="form-group">
+                <div class="label">Role</div>
+                <!-- <input class="form-control" id="departemen" placeholder="masukkan departemen" v-model="departemen"> -->
+                <select id="role" v-model="target.role" class="form-control">
+                    <option value=null>--</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Leader">Leader</option>
+                    <option value="Member">Member</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+              <div class="radio">
+                  <div class="label">Gender</div>
+                  <input type="radio" name="gender" v-model="target.gender" value=Male> Male
+                  <br>
+                  <input type="radio" name="gender" v-model="target.gender" value=Female> Female
+              </div>
+
+            </div>
+
+
+
+            
+
+            <div class="form-group">
+                <div class="mb-2 label">Birthdate</div>
+                <b-form-datepicker id="datepickerEnd-invalid" :state="birthdateValid" class="mb-2" v-model="target.birthdate"></b-form-datepicker>
+                
+                <b-form-invalid-feedback id="input-live-feedback-end">
+                  The date you entered is invalid
+                </b-form-invalid-feedback>
+            </div>
+        
+
+          <div class="form-group">
+            <div class="mb-2 label">Active Student Card</div>
+            <input class="form-control" v-model="target.activeStudentCard" id="activeStudentCard" placeholder="Nomor Pokok Mahasiswa / Nomor Induk Mahasiswa" />
+          </div>
+
+          <div class="form-group">
+            <div class="mb-2 label">Generation</div>
+            <input class="form-control" v-model="target.generation" id="generation" placeholder="20xx" />
+          </div>
+          
+          <div class="row">
+            <div class="col-sm-6 col-xs-12">
+              <div class="form-group">
+                <div class="mb-2 label">Study Program</div>
+                <input class="form-control" v-model="target.studyProgram" id="studyProgram" placeholder="Psikologi / Sistem Informasi/ ..." />
+              </div>
+            </div>
+
+            <div class="col-sm-6 col-xs-12">
+              <div class="form-group">
+                <div class="mb-2 label">Faculty</div>
+                <input class="form-control" v-model="target.faculty" id="faculty" placeholder="Fakultas ..." />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="mb-2 label">University</div>
+            <input class="form-control" v-model="target.university" id="university" placeholder="Universitas ..." />
+          </div>
+
+
+          <div class="form-group">
+            <div class="mb-2 label">Main Adress</div>
+            <input class="form-control" v-model="target.address1" id="address1" placeholder="Jalan Alamat 1 No. 1 ..." />
+          </div>
+
+          <div class="form-group">
+            <div class="mb-2 label">Secondary Address (if any)</div>
+            <input class="form-control" v-model="target.address2" id="address2" placeholder="Jalan Alamat 2 No. 1 ..." />
+          </div>
+
+          <div class="form-group">
+            <div class="mb-2 label">Phone Number</div>
+            <input class="form-control" v-model="target.phone" id="phone" placeholder="08xxxxxxxxxx" />
+          </div>
+
+          <div class="form-group">
+            <div class="mb-2 label">Email</div>
+            <input class="form-control" v-model="target.email" id="email" placeholder="email@email.com" />
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    <div class="radio">
+                        <div class="label">Uploaded Proposal</div>
+                        <input type="radio" name="isProposalUploaded" v-model="target.isPropsoalUploaded" value=true> Yes
+                        <br>
+                        <input type="radio" name="gender" v-model="target.isProposalUploaded" value=false> No
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    <div class="radio">
+                        <div class="label">Verified User</div>
+                        <input type="radio" name="isVerified" v-model="target.isVerified" value=true> Yes
+                        <br>
+                        <input type="radio" name="isVerified" v-model="target.isverified" value=false> No
+                    </div>
+                </div>
+
+            </div>
+          </div>
+
+          <button type="submit" class="btn save-btn btn-block mr-2">Ubah Data</button>
+   
+
+        </form>
+        <br/>
+        <button class="btn btn-light btn-block" v-b-modal.modal-del>Hapus User</button>
+
+      </div>
+
+    </div>
+  </b-modal>
+
+  <b-modal size="lg" ref="modalOk" hide-footer>
+      <div class="container">
+          <div class="d-block text-center">
+            <h4>Edit User Succsess</h4>
+          </div>
+      </div>
+  </b-modal>
+
+  <b-modal size="lg" ref="modalDelete" id="modal-del" hide-footer>
+       <div class="detail">
+            <p class="title">User ini akan dihapus ? </p>
+            <hr>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-danger mr-2" @click="deleteUser()">Delete</button>
+                <button class="btn btn-light" @click="hideModal">Cancel</button>
+            </div>
+        </div>
+  </b-modal>
+
+  
+
+
   
 
 
@@ -46,7 +213,7 @@
 </template>
 
 <script>
-
+import moment from 'moment'
 import { db } from '../../firebase/firebase'
 // import router from '../../router'
 
@@ -55,9 +222,27 @@ import { db } from '../../firebase/firebase'
     data () {
       return {
         userList: [],
-        counter2: 1
+        counter2: 1,
+        target:{},
+        errors : [],
+        userId:"",
   
       }
+    },
+
+    computed: {
+        birthdateValid(){
+            if(this.target.birthdate == ""){
+                return null;
+            }
+            else{
+                var currentDate =moment();
+                if(moment(this.target.birthdate).isAfter(currentDate)){
+                    return false;
+                }
+                return true;
+            }
+        },
     },
 
     methods: {
@@ -67,18 +252,23 @@ import { db } from '../../firebase/firebase'
           this.userList = [];
           snap.forEach(doc => {
             var user =doc.data();
-            console.log(user);
             user.id = doc.id;
             this.userList.push(user);
           })
-          console.log(this.userList);
+         
         })
         
       },
 
 
-      click(user){
-        this.$router.push("/admin/user" + user.id);
+      click(userId){
+        this.userId = userId;
+
+        db.collection('user').doc(this.userId).get().then(doc => {
+          // console.log(doc.data());
+          this.target = doc.data();
+        });
+        console.log(this.target.gender);
 
       },
 
@@ -87,15 +277,105 @@ import { db } from '../../firebase/firebase'
           this.counter2 ++;
       },
 
-      nextPage () {
-        if (this.page + 1 <= this.numberOfPages) this.page += 1
-      },
-      formerPage () {
-        if (this.page - 1 >= 1) this.page -= 1
-      },
-      updateItemsPerPage (number) {
-        this.itemsPerPage = number
-      },
+      validateAndSubmit(e){
+            e.preventDefault();
+            this.errors = [];
+            if(!this.birthdateValid){
+                this.errors.push("Your Birthdate is Invalid");
+            }
+            if(this.errors.length === 0){
+                if(this.target.address2 != null){
+                    if(this.target.isProposalUploaded == "true"){
+                        this.target.isProposalUploaded = true;
+                    }   
+                    else{
+                        this.target.isProposalUploaded =false;
+                    }
+
+                    if(this.target.isVerified == "true"){
+                        this.target.isVerified = true;
+                    }   
+                    else{
+                        this.target.isVerified =false;
+                    }
+
+                    db.collection('user').doc(this.userId).update({
+                        activeStudentCard:this.target.activeStudentCard,
+                        address1:this.target.address1,
+                        address2:this.target.address2,
+                        birthdate:moment(this.target.birthdate).format("YYYY-MM-DD"),
+                        email:this.target.email,
+                        faculty:this.target.faculty,
+                        fullName:this.target.fullName,
+                        gender:this.target.gender,
+                        generation:this.target.generation,
+                        phone:this.target.phone,
+                        role:this.target.role,
+                        studyProgram:this.target.studyProgram,
+                        university:this.target.university,
+                        isProposalUploaded : this.target.isProposalUploaded,
+                        isVerified : this.target.isVerified,
+                    }).then(() => {
+                        this.openModal()
+                    });
+
+                }else{
+                    if(this.target.isProposalUploaded == "true"){
+                        this.target.isProposalUploaded = true;
+                    }   
+                    else{
+                        this.target.isProposalUploaded =false;
+                    }
+
+                    if(this.target.isVerified == "true"){
+                        this.target.isVerified = true;
+                    }   
+                    else{
+                        this.target.isVerified =false;
+                    }
+
+                    db.collection('user').doc(this.userId).update({
+                        activeStudentCard:this.target.activeStudentCard,
+                        address1:this.target.address1,
+                        birthdate:moment(this.target.birthdate).format("DD MMMM YYYY"),
+                        email:this.target.email,
+                        faculty:this.target.faculty,
+                        fullName:this.target.fullName,
+                        gender:this.target.gender,
+                        generation:this.target.generation,
+                        phone:this.target.phone,
+                        role:this.target.role,
+                        studyProgram:this.target.studyProgram,
+                        university:this.target.university,
+                        isProposalUploaded : this.target.isProposalUploaded,
+                        isVerified : this.target.isVerified,
+                    }).then(() => {
+                        this.openModal()
+                    });
+                }
+            
+            }
+
+        },
+
+        openModal() {
+            this.$refs['modalOk'].show();
+            window.setTimeout(() => {
+               this.$refs['modalOk'].hide();
+            }, 2000);
+        },
+
+        deleteUser(){
+            db.collection('user').doc(this.userId).delete().then(() =>{
+                this.hideModal();
+                this.$refs['modalDetail'].hide();
+            })
+        },
+        hideModal(){
+          this.$refs['modalDelete'].hide();
+        },
+
+
     },
     created(){
       this.loadUser();
