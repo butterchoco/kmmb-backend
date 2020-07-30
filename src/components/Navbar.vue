@@ -4,10 +4,9 @@
 
     id="core-navigation-drawer"
     :right="$vuetify.rtl"
+    style="background-color:#1B262C"
     app
-    mobile-break-point="960"
     width="350"
-    class="red accent-4"
     >
         <v-list
         dense

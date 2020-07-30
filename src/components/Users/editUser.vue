@@ -142,7 +142,7 @@
           
 
           <div class="btn-group">
-            <button type="submit" class="btn btn-danger mr-2">Save</button>
+            <button type="submit" class="btn save-btn mr-2">Save</button>
             <button class="btn btn-light" @click="batal">Cancel</button>
           </div>
     
@@ -321,3 +321,10 @@ export default {
     
 }
 </script>
+
+<style>
+.save-btn{
+  background-color: #3282B8;
+  color: white;
+}
+</style>

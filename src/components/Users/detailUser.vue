@@ -16,7 +16,7 @@
      
                     <div class="col-xs-12 col-sm-6 col-md-4">
                         <div class="d-flex justify-content-end">
-                            <button class="btn  btn-outline-danger " v-on:click="updateUser()" id="updateUser"><span id="update">Update User</span></button>
+                            <button class="btn edit-btn" v-on:click="updateUser()" id="updateUser"><span id="update">Update User</span></button>
                         </div>
                         
                     </div>
@@ -33,35 +33,35 @@
                     
                     <tbody class="tbody">
                         <tr class="content">
-                            <td><strong style="color:#C53751">Student Active Number</strong> </td>
+                            <td><strong class="key">Student Active Number</strong> </td>
                             <td class="justify-start">{{user.activeStudentCard}}</td>
                         </tr>
                         <tr class="content">
-                            <td><strong style="color:#C53751">Generation</strong> </td>
+                            <td><strong class="key">Generation</strong> </td>
                             <td class="justify-start">{{user.generation}}</td>
                         </tr>                        
                         <tr class="content">
-                            <td><strong style="color:#C53751">Phone Number</strong> </td>
+                            <td><strong class="key">Phone Number</strong> </td>
                             <td class="justify-start">{{user.phone}}</td>
                         </tr>
                         <tr class="content">
-                            <td><strong style="color:#C53751">Email</strong> </td>
+                            <td><strong class="key">Email</strong> </td>
                             <td class="justify-start">{{user.email}}</td>
                         </tr>
                         <tr class="content">
-                            <td><strong style="color:#C53751">Main Address</strong> </td>
+                            <td><strong class="key">Main Address</strong> </td>
                             <td class="justify-start">{{user.address1}}</td>
                         </tr>
                         <tr class="content" v-if="user.address != null">
-                            <td><strong style="color:#C53751">Secondary Address</strong> </td>
+                            <td><strong class="key">Secondary Address</strong> </td>
                             <td class="justify-start">{{user.address2}}</td>
                         </tr>
                         <tr class="content">
-                            <td><strong style="color:#C53751">Birthdate</strong> </td>
+                            <td><strong class="key">Birthdate</strong> </td>
                             <td class="justify-start">{{user.birthdate}}</td>
                         </tr>
                         <tr class="content">
-                            <td><strong style="color:#C53751">Gender</strong> </td>
+                            <td><strong class="key">Gender</strong> </td>
                             <td class="justify-start">{{user.gender}}</td>
                         </tr>
                     </tbody>
@@ -82,9 +82,9 @@
         </b-card>
     </v-card>
     <div class="mt-3">
-        <button class="btn btn-outline-light" v-b-modal.modal-1>
-            <v-icon>mdi-delete</v-icon>
-            <span style="color:#000000">Delete User</span>
+        <button class="btn delete-btn" v-b-modal.modal-1>
+            <v-icon style="color: #E84A5F">mdi-delete</v-icon>
+           Delete User
         </button>
     </div>
 
@@ -160,5 +160,17 @@ export default {
 </script>
 
 <style>
+.key{
+    color:#3282B8 ;
+}
+.edit-btn{
+    border-color: #3282B8;
+    color: #3282B8;
+}
+.delete-btn{
+    background-color: white;
+    color:#E84A5F;
+
+}
 
 </style>

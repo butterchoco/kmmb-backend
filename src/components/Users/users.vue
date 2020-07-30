@@ -8,7 +8,7 @@
 
   <div class="mb-5">
     <router-link to="/admin/addUser">
-        <button class="btn btn-info">&#43; Add New User</button>
+        <button class="btn add-btn">&#43; Add New User</button>
     </router-link>
   </div>
 
@@ -101,3 +101,11 @@ import { db } from '../../firebase/firebase'
 
   }
 </script>
+
+<style scoped>
+.add-btn{
+  background-color: #3282B8;
+  color: white;
+}
+</style>>
+
