@@ -42,12 +42,13 @@ export default {
         };
     },
     methods:{
-        login: function() {
+        login(e) {
+            e.preventDefault();
             auth.signInWithEmailAndPassword(this.email, this.password).then(
-                function(user){
+               (user) =>{
                 console.log(user.user.email);
-                alert('Your are now sign in')
-                this.$router.replace('dashboard')
+                alert('Your are now sign in');
+                this.$router.push('/admin/dashboard');
             }).catch(function (error) {
                 // Handle Errors here.
                 var errorCode = error.code;
@@ -66,7 +67,7 @@ export default {
             const provider = new firebase.auth.GoogleAuthProvider();
 
             auth.signInWithPopup(provider).then((result) =>{
-                console.log(result.user.uid);
+                console.log(result.user.email);
                 this.$router.push('/admin/dashboard');
             }).catch((err) => {
                 alert('Oops. ' + err.message);

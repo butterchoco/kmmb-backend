@@ -73,7 +73,7 @@ export default {
   color: white;
 }
 
-#.card-container.card {
+.card-container.card {
     max-width: 350px;
     padding: 40px 40px;
 }
