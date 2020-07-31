@@ -161,16 +161,20 @@
             <b-form-input class="form-control" v-model="target.activeStudentCard" id="address1" placeholder="Jalan Alamat 2 No. 1 ..."></b-form-input>
           </b-form-group>
 
+          <!-- Field Propsoal -->
           <b-form-group>
             <div class="mb-2 label"><strong class="labelForm">Proposal</strong></div>
+            <span v-if="!target.isProposalUploaded" style="color:	#FF0000">Belum Upload Proposal</span>
             <b-form-input class="form-control" id="address1" placeholder="Proposal"></b-form-input>
           </b-form-group>
 
+          <!-- Field bukti pembayaram -->
           <b-form-group>
             <div class="mb-2 label"><strong class="labelForm">Bukti Pembayaran</strong></div>
             <b-form-input class="form-control" id="address1" placeholder="Bukti Pembayaran"></b-form-input>
           </b-form-group>
 
+          <!-- Field status verifikasi pembayaran -->
           <b-form-group>
             <div class="mb-2 label"><strong class="labelForm">Verifikasi Pembayaran</strong></div>
             <b-form-select
