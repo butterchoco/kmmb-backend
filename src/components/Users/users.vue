@@ -17,11 +17,11 @@
           <tr class="tr-top">
               <th scope="col">No.</th>
               <th scope="col">Name</th>
-              <th scope="col">Study Program</th>
-              <th scope="col">Faculty</th>
-              <th scope="col">University</th>
+              <th scope="col">Program Studi</th>
+              <th scope="col">Fakultas</th>
+              <th scope="col">Universitas</th>
               <th scope="col">Role</th>
-              
+              <th scope="col"></th>
           </tr>
       </thead>
       <tbody class="tbody">
@@ -32,6 +32,7 @@
               <td>{{user.faculty}}</td>
               <td>{{user.university}}</td>
               <td>{{user.role}}</td>
+              <td>{{user.isVerified}}</td>
               
           </tr>
       </tbody>
@@ -69,10 +70,10 @@
 
             <div class="form-group">
               <div class="radio">
-                  <div class="label">Gender</div>
-                  <input type="radio" name="gender" v-model="target.gender" value=Male> Male
+                  <div class="label">Jenis Kelamin</div>
+                  <input type="radio" name="gender" v-model="target.gender" value="Male"> Male
                   <br>
-                  <input type="radio" name="gender" v-model="target.gender" value=Female> Female
+                  <input type="radio" name="gender" v-model="target.gender" value="Female"> Female
               </div>
 
             </div>
@@ -82,7 +83,7 @@
             
 
             <div class="form-group">
-                <div class="mb-2 label">Birthdate</div>
+                <div class="mb-2 label">Tanggal Lahir</div>
                 <b-form-datepicker id="datepickerEnd-invalid" :state="birthdateValid" class="mb-2" v-model="target.birthdate"></b-form-datepicker>
                 
                 <b-form-invalid-feedback id="input-live-feedback-end">
@@ -92,49 +93,72 @@
         
 
           <div class="form-group">
-            <div class="mb-2 label">Active Student Card</div>
+            <div class="mb-2 label">Surat Keterangan Mahasiswa Aktif</div>
             <input class="form-control" v-model="target.activeStudentCard" id="activeStudentCard" placeholder="Nomor Pokok Mahasiswa / Nomor Induk Mahasiswa" />
           </div>
 
           <div class="form-group">
-            <div class="mb-2 label">Generation</div>
-            <input class="form-control" v-model="target.generation" id="generation" placeholder="20xx" />
+            <div class="mb-2 label">Angkatan</div>
+            <div class="radio">
+              
+              <div class="row">
+                <div class="col-4 col-sm-12 col-md-4">
+                  <input type="radio" name="gender" v-model="target.generation" value="2020"> 2020
+                </div>
+                <div class="col-4 col-sm-12 col-md-8">
+                  <input type="radio" name="gender" v-model="target.generation" value="2019"> 2019
+                </div>
+                <div class="col-4 col-sm-12 col-md-4">
+                  <input type="radio" name="gender" v-model="target.generation" value="2018"> 2018
+                </div>
+                <div class="col-4 col-sm-12 col-md-8">
+                  <input type="radio" name="gender" v-model="target.generation" value="2017"> 2017
+                </div>
+                <div class="col-4 col-sm-12 col-md-4">
+                  <input type="radio" name="gender" v-model="target.generation" value="2016"> 2016
+                </div>
+                <div class="col-4 col-sm-12 col-md-8">
+                  <input type="radio" name="gender" v-model="target.generation" value="< 2016"> Sebelum 2016
+                </div>
+              </div>
+              
+            </div>
           </div>
           
           <div class="row">
             <div class="col-sm-6 col-xs-12">
               <div class="form-group">
-                <div class="mb-2 label">Study Program</div>
+                <div class="mb-2 label">Program Studi</div>
                 <input class="form-control" v-model="target.studyProgram" id="studyProgram" placeholder="Psikologi / Sistem Informasi/ ..." />
               </div>
             </div>
 
             <div class="col-sm-6 col-xs-12">
               <div class="form-group">
-                <div class="mb-2 label">Faculty</div>
+                <div class="mb-2 label">Fakultas</div>
                 <input class="form-control" v-model="target.faculty" id="faculty" placeholder="Fakultas ..." />
               </div>
             </div>
           </div>
 
           <div class="form-group">
-            <div class="mb-2 label">University</div>
+            <div class="mb-2 label">Universitas</div>
             <input class="form-control" v-model="target.university" id="university" placeholder="Universitas ..." />
           </div>
 
 
           <div class="form-group">
-            <div class="mb-2 label">Main Adress</div>
+            <div class="mb-2 label">Alamat Utama</div>
             <input class="form-control" v-model="target.address1" id="address1" placeholder="Jalan Alamat 1 No. 1 ..." />
           </div>
 
           <div class="form-group">
-            <div class="mb-2 label">Secondary Address (if any)</div>
+            <div class="mb-2 label">Alamat Lainnya (Jika Ada)</div>
             <input class="form-control" v-model="target.address2" id="address2" placeholder="Jalan Alamat 2 No. 1 ..." />
           </div>
 
           <div class="form-group">
-            <div class="mb-2 label">Phone Number</div>
+            <div class="mb-2 label">Nomor Telpon</div>
             <input class="form-control" v-model="target.phone" id="phone" placeholder="08xxxxxxxxxx" />
           </div>
 

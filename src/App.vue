@@ -24,11 +24,17 @@ export default {
 };
 </script>
 <style lang="scss">
+h1 h5{
+  color: #1B262C;
+}
 table {
   tbody {
     tr {
       cursor: pointer;
     }
   }
+}
+.labelForm{
+  color: #1B262C;
 }
 </style>

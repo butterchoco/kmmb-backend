@@ -1,124 +1,143 @@
 <template>
   <v-container>
     <div class="mt-5 mb-3">
-        <h1>Add New user</h1>
+        <h1>Tambah User Baru</h1>
     </div>
 
     <br />
     <div class="card">
-      <div class="card-header">Form Add New User</div>
+      <div class="card-header"><strong class="labelForm">Formulir Tambah User</strong></div>
       <div class="card-body">
-        <form @submit.prevent="validateAndSubmit">
-          <div v-if="errors.length">
-                <div 
-                class="alert alert-warning" 
-                v-bind:key="index" 
-                v-for="(error,index) in errors">{{error}}</div>
-          </div>
+        <b-form @submit.prevent="validateAndSubmit">
+          <!-- Field Nama Lengkap -->
+          <b-form-group>
+            <div class="mb-2 label"><strong class="labelForm">Nama Lengkap *</strong></div>
+            <b-form-input
+              class="form-control"
+              v-model="user.fullName"
+              id="fullName"
+              placeholder="Nama Lengkap"></b-form-input>
+          </b-form-group>
 
+          <!-- Field Role -->
+          <b-form-group>
+            <div class="mb-2 label"><strong class="labelForm">Role *</strong></div>
+            <b-form-select
+              v-model="user.role" 
+              class="form-control">
+                <b-form-select-option value="Admin">Admin</b-form-select-option>
+                <b-form-select-option value="Ketua">Ketua</b-form-select-option>
+                <b-form-select-option value="Anggota">Anggota</b-form-select-option>
+                 
+            </b-form-select>
+          </b-form-group>
 
-          
-          <div class="form-group">
-            <div class="mb-2 label">Fullname</div>
-            <input class="form-control" v-model="user.fullName" id="fullName" placeholder="Fullname" />
-          </div>
+          <!-- Field Jenis Kelamin -->
+          <b-form-group>
+            <div class="mb-2 label"><strong class="labelForm">Jenis Kelamin *</strong></div>
+            <b-form-radio v-model="user.gender" name="gender" value="Laki-Laki">Laki-Laki</b-form-radio>
+            <b-form-radio v-model="user.gender" name="gender" value="Perempuan">Perempuan</b-form-radio>
+          </b-form-group>
 
-            <div class="form-group">
-                <div class="label">Role</div>
-                <!-- <input class="form-control" id="departemen" placeholder="masukkan departemen" v-model="departemen"> -->
-                <select id="role" v-model="user.role" class="form-control">
-                    <option value=null>--</option>
-                    <option value="Admin">Admin</option>
-                    <option value="Leader">Leader</option>
-                    <option value="Member">Member</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-              <div class="radio">
-                  <div class="label">Gender</div>
-                  <input type="radio" name="gender" v-model="user.gender" value=Male> Male
-                  <br>
-                  <input type="radio" name="gender" v-model="user.gender" value=Female> Female
-              </div>
-
-            </div>
-
-
-
+          <!-- Field tanggal lahir -->
+          <b-form-group>
+            <div class="mb-2 label"><strong class="labelForm">Tanggal Lahir *</strong></div>
+            <b-form-datepicker id="datepickerEnd-invalid" :state="birthdateValid" class="mb-2" v-model="user.birthdate"></b-form-datepicker>
             
+            <b-form-invalid-feedback id="input-live-feedback-end">
+              Tanggal yang anda masukan tidak valid
+            </b-form-invalid-feedback>
 
-            <div class="form-group">
-                <div class="mb-2 label">Birthdate</div>
-                <b-form-datepicker id="datepickerEnd-invalid" :state="birthdateValid" class="mb-2" v-model="user.birthdate"></b-form-datepicker>
-                
-                <b-form-invalid-feedback id="input-live-feedback-end">
-                  The date you entered is invalid
-                </b-form-invalid-feedback>
+          </b-form-group>
+
+          <!-- Field Angkatan -->
+          <b-form-group>
+            <div class="mb-2 label"><strong class="labelForm">Angkatan *</strong></div>
+            <div class="row">
+              <div class="col-4 col-sm-12 col-md-2">
+                <b-form-radio name="generation" v-model="user.generation" value="2020"> 2020 </b-form-radio>
+              </div>
+              <div class="col-4 col-sm-12 col-md-10">
+                <b-form-radio name="generation" v-model="user.generation" value="2019"> 2019 </b-form-radio>
+              </div>
+              <div class="col-4 col-sm-12 col-md-2">
+                <b-form-radio name="generation" v-model="user.generation" value="2018"> 2018 </b-form-radio>
+              </div>
+              <div class="col-4 col-sm-12 col-md-10">
+                <b-form-radio name="generation" v-model="user.generation" value="2017"> 2017 </b-form-radio>
+              </div>
+              <div class="col-4 col-sm-12 col-md-2">
+                <b-form-radio name="generation" v-model="user.generation" value="2016"> 2016 </b-form-radio>
+              </div>
+              <div class="col-4 col-sm-12 col-md-10">
+                <b-form-radio name="generation" v-model="user.generation" value="< 2016"> Sebelum 2016 </b-form-radio>
+              </div>
             </div>
+          </b-form-group>
+
+          <!-- Field Program studi dan fakultas -->
+          <b-form-group>
+            <div class="row">
+              <div class="col-6 col-sm-12 col-md-6">
+                <div class="mb-2 label"><strong class="labelForm">Program Studi *</strong></div>
+                <b-form-input class="form-control" :state="formStudyProgramTextOnlyLetter" v-model="user.studyProgram" id="studyProgram" placeholder="Psikologi / Sistem Informasi/ ..."></b-form-input>
+              </div>
+
+              <div class="col-6 col-sm-12 col-md-6">
+                <div class="mb-2 label"><strong class="labelForm">Fakultas *</strong></div>
+                <b-form-input class="form-control" :state="formFacultyTextOnlyLetter" v-model="user.faculty" id="Fakultas" placeholder="Fakultas ..."></b-form-input>
+              </div>
+
+            </div>
+          </b-form-group>
+
+          <!-- Field universitas -->
+          <b-form-group>
+            <div class="mb-2 label"><strong class="labelForm">Universitas *</strong></div>
+            <b-form-input class="form-control" v-model="user.university" id="university" placeholder="Universitas ..." ></b-form-input>
+          </b-form-group>
+
+          <!-- Field Alamat -->
+          <b-form-group>
+            <div class="mb-2 label"><strong class="labelForm">Alamat Utama *</strong></div>
+            <b-form-input class="form-control" v-model="user.address1" id="address1" placeholder="Jalan Alamat 1 No. 1 ..."></b-form-input>
+          </b-form-group>
+
+          <b-form-group>
+            <div class="mb-2 label"><strong class="labelForm">Alamat Lainnya (Jika ada)</strong></div>
+            <b-form-input class="form-control" v-model="user.address2" id="address2" placeholder="Jalan Alamat 2 No. 1 ..."></b-form-input>
+          </b-form-group>
+
+
+          <!-- Field Phone -->
+          <b-form-group>
+            <div class="mb-2 label"><strong class="labelForm">Nomor Telpon *</strong></div>
+            <b-form-input class="form-control" v-model="user.phone" id="phone" placeholder="08xx" :state="formOnlyNumber"></b-form-input>
+          </b-form-group>
+
+          <!-- Field Email -->
+          <b-form-group>
+            <div class="mb-2 label"><strong class="labelForm">Email *</strong></div>
+            <b-form-input class="form-control" v-model="user.email" id="email" placeholder="email@email.com"></b-form-input>
+          </b-form-group>
+
+          <!-- Field surat keterangan mahhasiswa aktif -->
+          <b-form-group>
+            <div class="mb-2 label"><strong class="labelForm">Surat Keterangan Mahasiswa Aktif *</strong></div>
+            <b-form-input class="form-control" v-model="user.activeStudentCard" id="address1" placeholder="Jalan Alamat 2 No. 1 ..."></b-form-input>
+          </b-form-group>
         
-
-          <div class="form-group">
-            <div class="mb-2 label">Active Student Card</div>
-            <input class="form-control" v-model="user.activeStudentCard" id="activeStudentCard" placeholder="Nomor Pokok Mahasiswa / Nomor Induk Mahasiswa" />
-          </div>
-
-          <div class="form-group">
-            <div class="mb-2 label">Generation</div>
-            <input class="form-control" v-model="user.generation" id="generation" placeholder="20xx" />
-          </div>
-          
-          <div class="row">
-            <div class="col-sm-6 col-xs-12">
-              <div class="form-group">
-                <div class="mb-2 label">Study Program</div>
-                <input class="form-control" v-model="user.studyProgram" id="studyProgram" placeholder="Psikologi / Sistem Informasi/ ..." />
-              </div>
-            </div>
-
-            <div class="col-sm-6 col-xs-12">
-              <div class="form-group">
-                <div class="mb-2 label">Faculty</div>
-                <input class="form-control" v-model="user.faculty" id="faculty" placeholder="Fakultas ..." />
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="mb-2 label">University</div>
-            <input class="form-control" v-model="user.university" id="university" placeholder="Universitas ..." />
-          </div>
-
-
-          <div class="form-group">
-            <div class="mb-2 label">Main Address</div>
-            <input class="form-control" v-model="user.address1" id="address1" placeholder="Jalan Alamat 1 No. 1 ..." />
-          </div>
-
-          <div class="form-group">
-            <div class="mb-2 label">Secondary Address (if any)</div>
-            <input class="form-control" v-model="user.address2" id="address2" placeholder="Jalan Alamat 2 No. 1 ..." />
-          </div>
-
-          <div class="form-group">
-            <div class="mb-2 label">Phone Number</div>
-            <input class="form-control" v-model="user.phone" id="phone" placeholder="08xxxxxxxxxx" />
-          </div>
-
-          <div class="form-group">
-            <div class="mb-2 label">Email</div>
-            <input class="form-control" v-model="user.email" id="email" placeholder="email@email.com" />
-          </div>
-
-          
-
           <div class="btn-group">
-            <button type="submit" class="btn save-btn mr-2" :disabled=isDisable()>Save</button>
-            <button class="btn btn-light" @click="batal">Cancel</button>
+            <button type="submit" class="btn save-btn mr-2" :disabled=isDisable()>Tambah User</button>
+            <button class="btn btn-light" @click="batal">Batal</button>
           </div>
+        </b-form>
+         
+
+
     
 
-        </form>
+
 
       </div>
 
@@ -127,7 +146,7 @@
     <b-modal size="lg" ref="modalOk" hide-footer>
         <div class="container">
             <div class="d-block text-center">
-              <h4>Add User Succsess</h4>
+              <h4>User berhasil ditambahkan</h4>
             </div>
         </div>
     </b-modal>
@@ -158,8 +177,7 @@ export default {
                 studyProgram:"",
                 university:"",
             },
-            errors:[],
-            
+            errors:[],            
         }
     },
 
@@ -176,6 +194,52 @@ export default {
                 return true;
             }
         },
+        formStudyProgramTextOnlyLetter(){
+          var regex = /^[A-Za-z\s]+$/;
+               
+          if(this.user.studyProgram == ""){
+            return null
+          }else{
+            if(regex.test(this.user.studyProgram)){
+
+              return true;              
+            }else{
+
+              return false
+            }
+          }
+        },
+        formFacultyTextOnlyLetter(){
+          var regex = /^[A-Za-z\s]+$/;
+               
+          if(this.user.faculty == ""){
+            return null
+          }else{
+            if(regex.test(this.user.faculty)){
+
+              return true;              
+            }else{
+
+              return false
+            }
+          }
+        },
+        formOnlyNumber(){
+          var regex = /^[0-9]+$/;
+               
+          if(this.user.phone == ""){
+            return null
+          }else{
+            if(regex.test(this.user.phone)){
+
+              return true;              
+            }else{
+
+              return false
+            }
+          }
+        }
+        
     },
 
     methods: {
@@ -185,17 +249,18 @@ export default {
             if(this.user.address1 == ""){return true;}
             if(this.birthdateValid == null || !this.birthdateValid){return true;}
             if(this.user.role == ""){return true;}
-            if(this.user.studyProgram == ""){return true;}
+            if(this.user.studyProgram == "" || !this.formStudyProgramTextOnlyLetter){return true;}
             if(this.user.university == ""){return true;}
             if(this.user.email == ""){return true;}
-            if(this.user.faculty == ""){return true;}
+            if(this.user.faculty == "" || !this.formFacultyTextOnlyLetter){return true;}
             if(this.user.fullName == ""){return true;}
             if(this.user.gender == ""){return true;}
             if(this.user.generation == ""){return true;}
-            if(this.user.phone == ""){return true;}
+            if(this.user.phone == "" || !this.formOnlyNumber){return true;}
  
             return false;
         },
+
         validateAndSubmit(e){
             e.preventDefault();
             this.errors = [];
