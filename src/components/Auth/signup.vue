@@ -67,7 +67,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .save-btn{
   background-color: #3282B8;
   color: white;

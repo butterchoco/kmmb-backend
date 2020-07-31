@@ -37,4 +37,9 @@ table {
 .labelForm{
   color: #1B262C;
 }
+
+.save-btn{
+  background-color: #3282b8;
+  color: white;
+}
 </style>

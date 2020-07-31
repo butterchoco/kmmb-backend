@@ -93,8 +93,8 @@
 
           <!-- Field universitas -->
           <b-form-group>
-            <div class="mb-2 label"><strong class="labelForm">Universitas *</strong></div>
-            <b-form-input class="form-control" v-model="user.university" id="university" placeholder="Universitas ..." ></b-form-input>
+            <div class="mb-2 label"><strong class="labelForm">Instansi *</strong></div>
+            <b-form-input class="form-control" v-model="user.university" id="university" placeholder="Universitas / Politeknik ..." ></b-form-input>
           </b-form-group>
 
           <!-- Field Alamat -->
@@ -283,7 +283,7 @@ export default {
                 studyProgram:this.user.studyProgram,
                 university:this.user.university,
                 isProposalUploaded : false,
-                isVerified : false,
+                isVerified : "Belum Membayar",
             }).then(() => {
                 this.openModal()
               });
@@ -308,9 +308,3 @@ export default {
 }
 </script>
 
-<style>
-.save-btn{
-  background-color: #3282B8;
-  color: white;
-}
-</style>
