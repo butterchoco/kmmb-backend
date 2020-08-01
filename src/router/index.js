@@ -13,7 +13,7 @@ import addUser from "../components/Users/addUser.vue"
 
 import AuthLayout from "../components/Auth/AuthLayout.vue"
 import login from "../components/Auth/login.vue"
-import signup from "../components/Auth/signup.vue"
+
 
 import MainLayout from '../components/MainLayout'
 
@@ -64,11 +64,6 @@ Vue.use(Vuetify)
         name:'login',
         path:'',
         component: login
-      },
-      {
-        name:'signup',
-        path:'signup',
-        component: signup
       },
     ]
   }

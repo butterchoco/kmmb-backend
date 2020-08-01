@@ -128,6 +128,7 @@ import {auth} from "../firebase/firebase"
     methods:{
       logout(){
         auth.signOut().then(() => {
+          alert("Sukses Log out");
           this.$router.push('/admin/auth');
         })
       }

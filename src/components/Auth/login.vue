@@ -31,21 +31,10 @@
           type="submit">
           Log in
           </button>
-        <div id="register-link" class="text-right">
-          <p>
-            Don't have an account ?
-            <router-link to="/admin/auth/signup">Create one</router-link>
-          </p>
-        </div>
+        
       </form>
       <!-- /form -->
-      <p class="text-center">or</p>
-      <button
-        @click="googleLogin"
-        class="btn btn-lg btn-primary btn-block btn-signinGoogle"
-        type="submit">
-        log in with google
-        </button>
+    
     </div>
     <!-- /card-container -->
   </div>
@@ -53,10 +42,8 @@
 </template>
 
 <script>
-import firebase from "firebase/app";
 import "vue-router";
-// import firebaseui from "firebaseui"
-// import "firebaseui/dist/firebaseui.css"
+
 
 import { auth } from "../../firebase/firebase";
 
@@ -91,16 +78,6 @@ export default {
           });
   
       },
-      googleLogin(){
-          const provider = new firebase.auth.GoogleAuthProvider();
-
-          auth.signInWithPopup(provider).then((result) =>{
-              console.log(result.user.email);
-              this.$router.push('/admin/dashboard');
-          }).catch((err) => {
-              alert('Oops. ' + err.message);
-          });
-      }
   
   },
 };
@@ -230,33 +207,4 @@ export default {
   transition: all 0.218s;
 }
 
-.btn.btn-signin:hover,
-.btn.btn-signin:active,
-.btn.btn-signin:focus {
-  background-color: #3282b8;
-}
-
-.btn.btn-signinGoogle {
-  /*background-color: #4d90fe; */
-  background-color: #4285f4;
-  /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
-  padding: 0px;
-  font-weight: 700;
-  font-size: 14px;
-  height: 36px;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  border: none;
-  -o-transition: all 0.218s;
-  -moz-transition: all 0.218s;
-  -webkit-transition: all 0.218s;
-  transition: all 0.218s;
-}
-
-.btn.btn-signinGoogle:hover,
-.btn.btn-signinGoogle:active,
-.btn.btn-signinGoogle:focus {
-  background-color: #1669f2;
-}
 </style>
