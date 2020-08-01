@@ -16,23 +16,21 @@
       <thead class="table-borderless">
           <tr class="tr-top">
               <th scope="col">No.</th>
-              <th scope="col">Name</th>
+              <th scope="col">Nama Ketua</th>
               <th scope="col">Program Studi</th>
               <th scope="col">Fakultas</th>
               <th scope="col">Instansi</th>
-              <th scope="col">Role</th>
-              <th scope="col"></th>
+              <th scope="col">Status Pembayaran</th>
           </tr>
       </thead>
       <tbody class="tbody">
           <tr v-for="(user,index) in userList" :key="user.id"  v-b-modal.modal-1 @click="click(user.id)"  class="content">
               <th scope=row class="th-bottom" v-bind="add()">{{index+1}}</th>
-              <td>{{user.fullName}}</td>
+              <td>{{user.namaKetua}}</td>
               <td>{{user.studyProgram}}</td>
               <td>{{user.faculty}}</td>
               <td>{{user.university}}</td>
-              <td>{{user.role}}</td>
-              <td>{{user.isVerified}}</td>
+              <td>{{user.statusVerifikasiPembayaran}}</td>
               
           </tr>
       </tbody>
@@ -45,16 +43,17 @@
         <b-form @submit.prevent="validateAndSubmit">
           <!-- Field Nama Lengkap -->
           <b-form-group>
-            <div class="mb-2 label"><strong class="labelForm">Nama Lengkap *</strong></div>
+            <div class="mb-2 label"><strong class="labelForm">Nama Lengkap Ketua *</strong></div>
             <b-form-input
               class="form-control"
-              v-model="target.fullName"
+              v-model="target.namaKetua"
               id="fullName"
-              placeholder="Nama Lengkap"></b-form-input>
+              placeholder="Nama Lengkap"
+              disabled></b-form-input>
           </b-form-group>
 
           <!-- Field Role -->
-          <b-form-group>
+          <!-- <b-form-group>
             <div class="mb-2 label"><strong class="labelForm">Role *</strong></div>
             <b-form-select
               v-model="target.role" 
@@ -64,19 +63,19 @@
                 <b-form-select-option value="Anggota">Anggota</b-form-select-option>
                  
             </b-form-select>
-          </b-form-group>
+          </b-form-group> -->
 
           <!-- Field Jenis Kelamin -->
           <b-form-group>
             <div class="mb-2 label"><strong class="labelForm">Jenis Kelamin *</strong></div>
-            <b-form-radio v-model="target.gender" name="gender" value="Laki-Laki">Laki-Laki</b-form-radio>
+            <b-form-radio v-model="target.gender" name="gender" value="Laki-Laki" disabled>Laki-Laki</b-form-radio>
             <b-form-radio v-model="target.gender" name="gender" value="Perempuan">Perempuan</b-form-radio>
           </b-form-group>
 
           <!-- Field tanggal lahir -->
           <b-form-group>
             <div class="mb-2 label"><strong class="labelForm">Tanggal Lahir *</strong></div>
-            <b-form-datepicker id="datepickerEnd-invalid" :state="birthdateValid" class="mb-2" v-model="target.birthdate"></b-form-datepicker>
+            <b-form-datepicker id="datepickerEnd-invalid" :state="birthdateValid" class="mb-2" v-model="target.birthdate" disabled></b-form-datepicker>
             
             <b-form-invalid-feedback id="input-live-feedback-end">
               Tanggal yang anda masukan tidak valid
@@ -89,22 +88,22 @@
             <div class="mb-2 label"><strong class="labelForm">Angkatan *</strong></div>
             <div class="row">
               <div class="col-4 col-sm-12 col-md-2">
-                <b-form-radio name="generation" v-model="target.generation" value="2020"> 2020 </b-form-radio>
+                <b-form-radio name="generation" v-model="target.generation" value="2020" disabled> 2020 </b-form-radio>
               </div>
               <div class="col-4 col-sm-12 col-md-10">
-                <b-form-radio name="generation" v-model="target.generation" value="2019"> 2019 </b-form-radio>
+                <b-form-radio name="generation" v-model="target.generation" value="2019" disabled> 2019 </b-form-radio>
               </div>
               <div class="col-4 col-sm-12 col-md-2">
-                <b-form-radio name="generation" v-model="target.generation" value="2018"> 2018 </b-form-radio>
+                <b-form-radio name="generation" v-model="target.generation" value="2018" disabled> 2018 </b-form-radio>
               </div>
               <div class="col-4 col-sm-12 col-md-10">
-                <b-form-radio name="generation" v-model="target.generation" value="2017"> 2017 </b-form-radio>
+                <b-form-radio name="generation" v-model="target.generation" value="2017" disabled> 2017 </b-form-radio>
               </div>
               <div class="col-4 col-sm-12 col-md-2">
-                <b-form-radio name="generation" v-model="target.generation" value="2016"> 2016 </b-form-radio>
+                <b-form-radio name="generation" v-model="target.generation" value="2016" disabled> 2016 </b-form-radio>
               </div>
               <div class="col-4 col-sm-12 col-md-10">
-                <b-form-radio name="generation" v-model="target.generation" value="< 2016"> Sebelum 2016 </b-form-radio>
+                <b-form-radio name="generation" v-model="target.generation" value="< 2016" disabled> Sebelum 2016 </b-form-radio>
               </div>
             </div>
           </b-form-group>
@@ -114,12 +113,12 @@
             <div class="row">
               <div class="col-6 col-sm-12 col-md-6">
                 <div class="mb-2 label"><strong class="labelForm">Program Studi *</strong></div>
-                <b-form-input class="form-control" :state="formStudyProgramTextOnlyLetter" v-model="target.studyProgram" id="studyProgram" placeholder="Psikologi / Sistem Informasi/ ..."></b-form-input>
+                <b-form-input disabled class="form-control" :state="formStudyProgramTextOnlyLetter" v-model="target.studyProgram" id="studyProgram" placeholder="Psikologi / Sistem Informasi/ ..."></b-form-input>
               </div>
 
               <div class="col-6 col-sm-12 col-md-6">
                 <div class="mb-2 label"><strong class="labelForm">Fakultas *</strong></div>
-                <b-form-input class="form-control" :state="formFacultyTextOnlyLetter" v-model="target.faculty" id="Fakultas" placeholder="Fakultas ..."></b-form-input>
+                <b-form-input disabled class="form-control" :state="formFacultyTextOnlyLetter" v-model="target.faculty" id="Fakultas" placeholder="Fakultas ..."></b-form-input>
               </div>
 
             </div>
@@ -128,43 +127,49 @@
           <!-- Field universitas -->
           <b-form-group>
             <div class="mb-2 label"><strong class="labelForm">Institusi *</strong></div>
-            <b-form-input class="form-control" v-model="target.university" id="university" placeholder="Universitas / Politeknik ..." ></b-form-input>
+            <b-form-input disabled class="form-control" v-model="target.university" id="university" placeholder="Universitas / Politeknik ..." ></b-form-input>
           </b-form-group>
 
           <!-- Field Alamat -->
           <b-form-group>
             <div class="mb-2 label"><strong class="labelForm">Alamat Utama *</strong></div>
-            <b-form-input class="form-control" v-model="target.address1" id="address1" placeholder="Jalan Alamat 1 No. 1 ..."></b-form-input>
+            <b-form-input disabled class="form-control" v-model="target.address1" id="address1" placeholder="Jalan Alamat 1 No. 1 ..."></b-form-input>
           </b-form-group>
 
           <b-form-group>
             <div class="mb-2 label"><strong class="labelForm">Alamat Lainnya (Jika ada)</strong></div>
-            <b-form-input class="form-control" v-model="target.address2" id="address2" placeholder="Jalan Alamat 2 No. 1 ..."></b-form-input>
+            <b-form-input disabled class="form-control" v-model="target.address2" id="address2" placeholder="Jalan Alamat 2 No. 1 ..."></b-form-input>
           </b-form-group>
 
 
           <!-- Field Phone -->
           <b-form-group>
             <div class="mb-2 label"><strong class="labelForm">Nomor Telpon *</strong></div>
-            <b-form-input class="form-control" v-model="target.phone" id="phone" placeholder="08xx" :state="formOnlyNumber"></b-form-input>
+            <b-form-input disabled class="form-control" v-model="target.phone" id="phone" placeholder="08xx" :state="formOnlyNumber"></b-form-input>
           </b-form-group>
 
           <!-- Field Email -->
           <b-form-group>
             <div class="mb-2 label"><strong class="labelForm">Email *</strong></div>
-            <b-form-input class="form-control" v-model="target.email" id="email" placeholder="email@email.com"></b-form-input>
+            <b-form-input disabled class="form-control" v-model="target.email" id="email" placeholder="email@email.com"></b-form-input>
           </b-form-group>
 
           <!-- Field surat keterangan mahhasiswa aktif -->
           <b-form-group>
             <div class="mb-2 label"><strong class="labelForm">Surat Keterangan Mahasiswa Aktif *</strong></div>
-            <b-form-input class="form-control" v-model="target.activeStudentCard" id="address1" placeholder="Jalan Alamat 2 No. 1 ..."></b-form-input>
+            <button @click="download(target.suratKeteranganMahasiswa)">
+              Download Surat Keterangan Mahasiswa Aktif                                                
+            </button> 
+            <!-- <b-form-input class="form-control" v-model="target.activeStudentCard" id="address1" placeholder="Jalan Alamat 2 No. 1 ..."></b-form-input> -->
           </b-form-group>
 
           <!-- Field Propsoal -->
           <b-form-group>
             <div class="mb-2 label"><strong class="labelForm">Proposal</strong></div>
             <span v-if="!target.isProposalUploaded" style="color:	#FF0000">Belum Upload Proposal</span>
+            <a v-else @click="download(target.proposal)">
+                {{target.proposal}}                                
+            </a> 
             <b-form-input class="form-control" id="address1" placeholder="Proposal"></b-form-input>
           </b-form-group>
 
@@ -176,9 +181,9 @@
 
           <!-- Field status verifikasi pembayaran -->
           <b-form-group>
-            <div class="mb-2 label"><strong class="labelForm">Verifikasi Pembayaran</strong></div>
+            <div class="mb-2 label"><strong class="labelForm">Status Verifikasi Pembayaran</strong></div>
             <b-form-select
-              v-model="target.isVerified" 
+              v-model="target.statusVerifikasiPembayaran" 
               class="form-control">
                 <b-form-select-option value="Belum Membayar">Belum Membayar</b-form-select-option>
                 <b-form-select-option value="Menunggu Pembayaran">Menunggu Pembayaran</b-form-select-option>
@@ -236,7 +241,7 @@
 
 <script>
 import moment from 'moment'
-import { db } from '../../firebase/firebase'
+import { db, storage } from '../../firebase/firebase'
 // import router from '../../router'
 
   export default {
@@ -248,6 +253,7 @@ import { db } from '../../firebase/firebase'
         target:{},
         errors : [],
         userId:"",
+
   
       }
     },
@@ -313,8 +319,8 @@ import { db } from '../../firebase/firebase'
     },
 
     methods: {
-      async loadUser() {
-        var userRef = await db.collection('user');
+      loadUser() {
+        var userRef = db.collection('user');
         userRef.onSnapshot(snap => {
           this.userList = [];
           snap.forEach(doc => {
@@ -335,7 +341,16 @@ import { db } from '../../firebase/firebase'
           // console.log(doc.data());
           this.target = doc.data();
         });
-        console.log(this.target.gender);
+        
+
+      },
+
+      download(url){
+        var gsReference = storage.refFromURL(url);  
+        gsReference.getDownloadURL().then(link => {
+          console.log(link);
+          window.location.href=link;
+        })     
 
       },
 
@@ -360,7 +375,7 @@ import { db } from '../../firebase/firebase'
                     }
 
                     db.collection('user').doc(this.userId).update({
-                        activeStudentCard:this.target.activeStudentCard,
+                        activeStudentCard:this.target.suratKeteranganMahasiswa,
                         address1:this.target.address1,
                         address2:this.target.address2,
                         birthdate:moment(this.target.birthdate).format("YYYY-MM-DD"),
