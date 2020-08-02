@@ -106,6 +106,67 @@
             {{target.university}}
         </div>
 
+        <!-- Section Daftar Anggota -->
+        <div class="card-header">Data Anggota</div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6">
+              <!-- Field Nama Ketua -->
+              <div class="mb-4">
+                <div class="mb-2 label"><strong class="labelForm">Nama Lengkap Anggota 1</strong></div>
+                {{target.namaKetua}}
+              </div>
+              
+              <!-- Field Jenis Kelamin -->
+              <div class="mb-4">
+                <div class="mb-2 label"><strong class="labelForm">Jenis Kelamin</strong></div>
+                {{target.gender}}
+              </div>
+
+              <!-- Field Tanggal Lahir -->
+              <div class="mb-4">
+                <div class="mb-2 label"><strong class="labelForm">Tanggal Lahir</strong></div>
+                {{target.birthdate | formatDate}}
+              </div>
+
+              <!-- Field Nomor Telpon -->
+              <div class="mb-4">
+                <div class="mb-2 label"><strong class="labelForm">Nomor Telpon</strong></div>
+                {{target.phone}}
+              </div>
+
+            </div>
+
+            <div class="col-6">
+              <!-- Field Nama Ketua -->
+              <div class="mb-4">
+                <div class="mb-2 label"><strong class="labelForm">Nama Lengkap Anggota 2</strong></div>
+                {{target.namaKetua}}
+              </div>
+              
+              <!-- Field Jenis Kelamin -->
+              <div class="mb-4">
+                <div class="mb-2 label"><strong class="labelForm">Jenis Kelamin</strong></div>
+                {{target.gender}}
+              </div>
+
+              <!-- Field Tanggal Lahir -->
+              <div class="mb-4">
+                <div class="mb-2 label"><strong class="labelForm">Tanggal Lahir</strong></div>
+                {{target.birthdate | formatDate}}
+              </div>
+
+              <!-- Field Nomor Telpon -->
+              <div class="mb-4">
+                <div class="mb-2 label"><strong class="labelForm">Nomor Telpon</strong></div>
+                {{target.phone}}
+              </div>
+              
+            </div>
+          </div>
+          
+        </div>
+
         <!-- Field Surat Keterangan Mahasiswa -->
         <div class="mb-4">
         <div class="mb-2 label"><strong class="labelForm">Surat Keterangan Mahasiswa</strong></div>
@@ -156,6 +217,8 @@
           Belum Upload Proposal
         </div>
 
+        
+
         <b-form @submit.prevent="validateAndSubmit">
           <!-- Field status verifikasi pembayaran -->
           <b-form-group>
@@ -169,14 +232,7 @@
                 <b-form-select-option value="Ditolak">Ditolak</b-form-select-option>
                  
             </b-form-select>
-          </b-form-group>
-
-          <div class="card">
-
-          </div>
-
-          
-
+          </b-form-group>       
 
           <button style="color:white" type="submit" class="btn save-btn mr-2 btn-block" >Ubah Status Verifikasi Pembayaran</button>
 
