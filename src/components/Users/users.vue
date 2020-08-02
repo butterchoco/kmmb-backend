@@ -3,7 +3,7 @@
 <v-container>
 
   <div class="mt-5 mb-3">
-    <h1>List of Users</h1>
+    <h1>Daftar Peserta</h1>
   </div>
 
   <div class="mb-5">
@@ -36,149 +36,127 @@
       </tbody>
   </table>
 
-  <b-modal ref="modalDetail" id="modal-1" title="Detail User" v-bind:hide-footer="true">
+  <b-modal size="lg" ref="modalDetail" id="modal-1" title="Detail User" v-bind:hide-footer="true">
       <div class="card">
-      <div class="card-header">Detail User</div>
+      <div class="card-header">Detail Peserta</div>
       <div class="card-body">
+        <!-- Field Nama Ketua -->
+        <div class="mb-4">
+          <div class="mb-2 label"><strong class="labelForm">Nama Lengkap Ketua</strong></div>
+          {{target.namaKetua}}
+        </div>
+        
+        <!-- Field Jenis Kelamin -->
+        <div class="mb-4">
+          <div class="mb-2 label"><strong class="labelForm">Jenis Kelamin</strong></div>
+          {{target.gender}}
+        </div>
+
+        <!-- Field Tanggal Lahir -->
+        <div class="mb-4">
+          <div class="mb-2 label"><strong class="labelForm">Tanggal Lahir</strong></div>
+          {{target.birthdate | formatDate}}
+        </div>
+
+        <!-- Field Nomor Telpon -->
+        <div class="mb-4">
+          <div class="mb-2 label"><strong class="labelForm">Nomor Telpon</strong></div>
+          {{target.phone}}
+        </div>
+
+        <!-- Field Email -->
+        <div class="mb-4">
+          <div class="mb-2 label"><strong class="labelForm">Email</strong></div>
+          {{target.email}}
+        </div>
+
+        <!-- Field Alamat -->
+        <div class="mb-4">
+          <div class="mb-2 label"><strong class="labelForm">Alamat Utama</strong></div>
+          {{target.address1}}
+        </div>
+
+        <div v-if="target.address2" class="mb-4">
+          <div class="mb-2 label"><strong class="labelForm">Alamat Lainnya</strong></div>
+          {{target.address2}}
+        </div>
+
+        <!-- Field angkatan -->
+        <div class="mb-2">
+          <div class="mb-2 label"><strong class="labelForm">Angkatan</strong></div>
+          {{target.generation}}
+        </div>
+
+        <!-- Field Program Studi dan Fakultas         -->
+        <div class="mb-3 row">
+          <div class="col-6 col-sm-12 col-md-6">
+            <div class="mb-2 label"><strong class="labelForm">Program Studi</strong></div>
+            {{target.studyProgram}}
+          </div>
+
+          <div class="col-6 col-sm-12 col-md-6">
+            <div class="mb-2 label"><strong class="labelForm">Fakultas</strong></div>
+            {{target.faculty}}
+          </div>
+        </div>
+
+        <!-- Field Instansi -->
+        <div class="mb-4">
+          <div class="mb-2 label"><strong class="labelForm">Instansi</strong></div>
+            {{target.university}}
+        </div>
+
+        <!-- Field Surat Keterangan Mahasiswa -->
+        <div class="mb-4">
+        <div class="mb-2 label"><strong class="labelForm">Surat Keterangan Mahasiswa</strong></div>
+          <div>
+            <a class="linkFile" @click="download(target.suratKeteranganMahasiswa[0])">
+              {{fileSuratKetMahasiswa1}}
+            </a>
+          </div>
+          
+          <div>
+            <a class="linkFile" @click="download(target.suratKeteranganMahasiswa[1])">
+              {{fileSuratKetMahasiswa2}}
+            </a>
+          </div>
+
+          <div v-if="sizeMember3" >
+            <a class="linkFile" @click="download(target.suratKeteranganMahasiswa[2])">
+              {{fileSuratKetMahasiswa3}}
+            </a>
+          </div>
+ 
+        </div>
+
+        <!-- Field Bukti Pembayaran -->
+        <div v-if ="target.berkasPembayaran" class="mb-4">
+        <div class="mb-2 label"><strong class="labelForm">Bukti Pembayaran</strong></div>
+          <a class="linkFile" @click="download(target.berkasPembayaran)">
+            {{buktiPembayaran}}
+          </a>
+        </div>
+
+        <div v-else class="mb-4">
+        <div class="mb-2 label"><strong class="labelForm">Bukti Pembayaran</strong></div>
+          Belum Upload Bukti Pembayaran
+        </div>
+
+
+        <!-- Field Proposal -->
+        <div v-if ="target.proposal" class="mb-4">
+        <div class="mb-2 label"><strong class="labelForm">Proposal</strong></div>
+          <a class="linkFile" @click="download(target.proposal)">
+            {{proposal}}
+          </a>
+        </div>
+
+        <div v-else class="mb-4">
+        <div class="mb-2 label"><strong class="labelForm">Proposal</strong></div>
+          Belum Upload Proposal
+        </div>
+
         <b-form @submit.prevent="validateAndSubmit">
-          <!-- Field Nama Lengkap -->
-          <b-form-group>
-            <div class="mb-2 label"><strong class="labelForm">Nama Lengkap Ketua *</strong></div>
-            <b-form-input
-              class="form-control"
-              v-model="target.namaKetua"
-              id="fullName"
-              placeholder="Nama Lengkap"
-              disabled></b-form-input>
-          </b-form-group>
-
-          <!-- Field Role -->
-          <!-- <b-form-group>
-            <div class="mb-2 label"><strong class="labelForm">Role *</strong></div>
-            <b-form-select
-              v-model="target.role" 
-              class="form-control">
-                <b-form-select-option value="Admin">Admin</b-form-select-option>
-                <b-form-select-option value="Ketua">Ketua</b-form-select-option>
-                <b-form-select-option value="Anggota">Anggota</b-form-select-option>
-                 
-            </b-form-select>
-          </b-form-group> -->
-
-          <!-- Field Jenis Kelamin -->
-          <b-form-group>
-            <div class="mb-2 label"><strong class="labelForm">Jenis Kelamin *</strong></div>
-            <b-form-radio v-model="target.gender" name="gender" value="Laki-Laki" disabled>Laki-Laki</b-form-radio>
-            <b-form-radio v-model="target.gender" name="gender" value="Perempuan">Perempuan</b-form-radio>
-          </b-form-group>
-
-          <!-- Field tanggal lahir -->
-          <b-form-group>
-            <div class="mb-2 label"><strong class="labelForm">Tanggal Lahir *</strong></div>
-            <b-form-datepicker id="datepickerEnd-invalid" :state="birthdateValid" class="mb-2" v-model="target.birthdate" disabled></b-form-datepicker>
-            
-            <b-form-invalid-feedback id="input-live-feedback-end">
-              Tanggal yang anda masukan tidak valid
-            </b-form-invalid-feedback>
-
-          </b-form-group>
-
-          <!-- Field Angkatan -->
-          <b-form-group>
-            <div class="mb-2 label"><strong class="labelForm">Angkatan *</strong></div>
-            <div class="row">
-              <div class="col-4 col-sm-12 col-md-2">
-                <b-form-radio name="generation" v-model="target.generation" value="2020" disabled> 2020 </b-form-radio>
-              </div>
-              <div class="col-4 col-sm-12 col-md-10">
-                <b-form-radio name="generation" v-model="target.generation" value="2019" disabled> 2019 </b-form-radio>
-              </div>
-              <div class="col-4 col-sm-12 col-md-2">
-                <b-form-radio name="generation" v-model="target.generation" value="2018" disabled> 2018 </b-form-radio>
-              </div>
-              <div class="col-4 col-sm-12 col-md-10">
-                <b-form-radio name="generation" v-model="target.generation" value="2017" disabled> 2017 </b-form-radio>
-              </div>
-              <div class="col-4 col-sm-12 col-md-2">
-                <b-form-radio name="generation" v-model="target.generation" value="2016" disabled> 2016 </b-form-radio>
-              </div>
-              <div class="col-4 col-sm-12 col-md-10">
-                <b-form-radio name="generation" v-model="target.generation" value="< 2016" disabled> Sebelum 2016 </b-form-radio>
-              </div>
-            </div>
-          </b-form-group>
-
-          <!-- Field Program studi dan fakultas -->
-          <b-form-group>
-            <div class="row">
-              <div class="col-6 col-sm-12 col-md-6">
-                <div class="mb-2 label"><strong class="labelForm">Program Studi *</strong></div>
-                <b-form-input disabled class="form-control" :state="formStudyProgramTextOnlyLetter" v-model="target.studyProgram" id="studyProgram" placeholder="Psikologi / Sistem Informasi/ ..."></b-form-input>
-              </div>
-
-              <div class="col-6 col-sm-12 col-md-6">
-                <div class="mb-2 label"><strong class="labelForm">Fakultas *</strong></div>
-                <b-form-input disabled class="form-control" :state="formFacultyTextOnlyLetter" v-model="target.faculty" id="Fakultas" placeholder="Fakultas ..."></b-form-input>
-              </div>
-
-            </div>
-          </b-form-group>
-
-          <!-- Field universitas -->
-          <b-form-group>
-            <div class="mb-2 label"><strong class="labelForm">Institusi *</strong></div>
-            <b-form-input disabled class="form-control" v-model="target.university" id="university" placeholder="Universitas / Politeknik ..." ></b-form-input>
-          </b-form-group>
-
-          <!-- Field Alamat -->
-          <b-form-group>
-            <div class="mb-2 label"><strong class="labelForm">Alamat Utama *</strong></div>
-            <b-form-input disabled class="form-control" v-model="target.address1" id="address1" placeholder="Jalan Alamat 1 No. 1 ..."></b-form-input>
-          </b-form-group>
-
-          <b-form-group>
-            <div class="mb-2 label"><strong class="labelForm">Alamat Lainnya (Jika ada)</strong></div>
-            <b-form-input disabled class="form-control" v-model="target.address2" id="address2" placeholder="Jalan Alamat 2 No. 1 ..."></b-form-input>
-          </b-form-group>
-
-
-          <!-- Field Phone -->
-          <b-form-group>
-            <div class="mb-2 label"><strong class="labelForm">Nomor Telpon *</strong></div>
-            <b-form-input disabled class="form-control" v-model="target.phone" id="phone" placeholder="08xx" :state="formOnlyNumber"></b-form-input>
-          </b-form-group>
-
-          <!-- Field Email -->
-          <b-form-group>
-            <div class="mb-2 label"><strong class="labelForm">Email *</strong></div>
-            <b-form-input disabled class="form-control" v-model="target.email" id="email" placeholder="email@email.com"></b-form-input>
-          </b-form-group>
-
-          <!-- Field surat keterangan mahhasiswa aktif -->
-          <b-form-group>
-            <div class="mb-2 label"><strong class="labelForm">Surat Keterangan Mahasiswa Aktif *</strong></div>
-            <button @click="download(target.suratKeteranganMahasiswa)">
-              Download Surat Keterangan Mahasiswa Aktif                                                
-            </button> 
-            <!-- <b-form-input class="form-control" v-model="target.activeStudentCard" id="address1" placeholder="Jalan Alamat 2 No. 1 ..."></b-form-input> -->
-          </b-form-group>
-
-          <!-- Field Propsoal -->
-          <b-form-group>
-            <div class="mb-2 label"><strong class="labelForm">Proposal</strong></div>
-            <span v-if="!target.isProposalUploaded" style="color:	#FF0000">Belum Upload Proposal</span>
-            <a v-else @click="download(target.proposal)">
-                {{target.proposal}}                                
-            </a> 
-            <b-form-input class="form-control" id="address1" placeholder="Proposal"></b-form-input>
-          </b-form-group>
-
-          <!-- Field bukti pembayaram -->
-          <b-form-group>
-            <div class="mb-2 label"><strong class="labelForm">Bukti Pembayaran</strong></div>
-            <b-form-input class="form-control" id="address1" placeholder="Bukti Pembayaran"></b-form-input>
-          </b-form-group>
-
           <!-- Field status verifikasi pembayaran -->
           <b-form-group>
             <div class="mb-2 label"><strong class="labelForm">Status Verifikasi Pembayaran</strong></div>
@@ -193,10 +171,14 @@
             </b-form-select>
           </b-form-group>
 
+          <div class="card">
+
+          </div>
+
           
 
 
-          <button type="submit" class="btn save-btn mr-2 btn-block" :disabled=isDisable()>Ubah User</button>
+          <button style="color:white" type="submit" class="btn save-btn mr-2 btn-block" >Ubah Status Verifikasi Pembayaran</button>
 
         </b-form>
 
@@ -205,7 +187,11 @@
 
       </div>
 
+      
+
     </div>
+
+    
   </b-modal>
 
   <b-modal size="lg" ref="modalOk" hide-footer>
@@ -239,10 +225,22 @@
 
 </template>
 
+<style scoped>
+.linkFile{
+  color: #E84A5F;
+}
+
+</style>
+
+
+
 <script>
 import moment from 'moment'
+import axios from 'axios'
 import { db, storage } from '../../firebase/firebase'
 // import router from '../../router'
+
+  
 
   export default {
     name: 'usersList',
@@ -253,6 +251,13 @@ import { db, storage } from '../../firebase/firebase'
         target:{},
         errors : [],
         userId:"",
+        tanggalLahirKetua:"",
+        fileSuratKetMahasiswa1:"",
+        fileSuratKetMahasiswa2:"",
+        fileSuratKetMahasiswa3:"",
+        buktiPembayaran:"",
+        proposal: "",
+        sizeMember3 : false,
 
   
       }
@@ -340,16 +345,43 @@ import { db, storage } from '../../firebase/firebase'
         db.collection('user').doc(this.userId).get().then(doc => {
           // console.log(doc.data());
           this.target = doc.data();
+          this.tanggalLahirKetua = moment(this.target.birthdate).format("DD MMMM YYYY")
+          this.buktiPembayaran = this.target.berkasPembayaran.split('/').pop().split('#')[0].split('?')[0];
+          this.proposal = this.target.proposal.split('/').pop().split('#')[0].split('?')[0];
+
+          if((this.target.suratKeteranganMahasiswa).length == 3){
+            this.sizeMember3 = true;
+            this.fileSuratKetMahasiswa1 = this.target.suratKeteranganMahasiswa[0].split('/').pop().split('#')[0].split('?')[0];
+            this.fileSuratKetMahasiswa2 = this.target.suratKeteranganMahasiswa[1].split('/').pop().split('#')[0].split('?')[0];
+            this.fileSuratKetMahasiswa3 = this.target.suratKeteranganMahasiswa[2].split('/').pop().split('#')[0].split('?')[0];
+          }else{
+            this.sizeMember3 = false;
+            this.fileSuratKetMahasiswa1 = this.target.suratKeteranganMahasiswa[0].split('/').pop().split('#')[0].split('?')[0];
+            this.fileSuratKetMahasiswa2 = this.target.suratKeteranganMahasiswa[1].split('/').pop().split('#')[0].split('?')[0];
+          }
         });
         
 
       },
 
       download(url){
+        
         var gsReference = storage.refFromURL(url);  
         gsReference.getDownloadURL().then(link => {
-          console.log(link);
-          window.location.href=link;
+          axios({
+                url: link,
+                method : 'GET',
+                responseType : 'blob',
+            }).then((response) =>  {
+                var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                var fileLink = document.createElement('a');
+
+                fileLink.href = fileURL;
+                fileLink.setAttribute('download', url.split('/').pop().split('#')[0].split('?')[0]);
+                document.body.appendChild(fileLink);
+
+                fileLink.click();
+          })
         })     
 
       },
@@ -375,21 +407,7 @@ import { db, storage } from '../../firebase/firebase'
                     }
 
                     db.collection('user').doc(this.userId).update({
-                        activeStudentCard:this.target.suratKeteranganMahasiswa,
-                        address1:this.target.address1,
-                        address2:this.target.address2,
-                        birthdate:moment(this.target.birthdate).format("YYYY-MM-DD"),
-                        email:this.target.email,
-                        faculty:this.target.faculty,
-                        fullName:this.target.fullName,
-                        gender:this.target.gender,
-                        generation:this.target.generation,
-                        phone:this.target.phone,
-                        role:this.target.role,
-                        studyProgram:this.target.studyProgram,
-                        university:this.target.university,
-                        isProposalUploaded : this.target.isProposalUploaded,
-                        isVerified : this.target.isVerified,
+                        statusVerifikasiPembayaran : this.target.statusVerifikasiPembayaran,
                     }).then(() => {
                         this.openModal()
                     });
@@ -410,20 +428,7 @@ import { db, storage } from '../../firebase/firebase'
                     }
 
                     db.collection('user').doc(this.userId).update({
-                        activeStudentCard:this.target.activeStudentCard,
-                        address1:this.target.address1,
-                        birthdate:moment(this.target.birthdate).format("DD MMMM YYYY"),
-                        email:this.target.email,
-                        faculty:this.target.faculty,
-                        fullName:this.target.fullName,
-                        gender:this.target.gender,
-                        generation:this.target.generation,
-                        phone:this.target.phone,
-                        role:this.target.role,
-                        studyProgram:this.target.studyProgram,
-                        university:this.target.university,
-                        isProposalUploaded : this.target.isProposalUploaded,
-                        isVerified : this.target.isVerified,
+                        statusVerifikasiPembayaran : this.target.statusVerifikasiPembayaran,
                     }).then(() => {
                         this.openModal()
                     });
@@ -448,22 +453,6 @@ import { db, storage } from '../../firebase/firebase'
         },
         hideModal(){
           this.$refs['modalDelete'].hide();
-        },
-        isDisable(){
-            if(this.target.activeStudentCard == ""){return true;}
-            if(this.target.address1 == ""){return true;}
-            if(this.birthdateValid == null || !this.birthdateValid){return true;}
-            if(this.target.role == ""){return true;}
-            if(this.target.studyProgram == "" || !this.formStudyProgramTextOnlyLetter){return true;}
-            if(this.target.university == ""){return true;}
-            if(this.target.email == ""){return true;}
-            if(this.target.faculty == "" || !this.formFacultyTextOnlyLetter){return true;}
-            if(this.target.fullName == ""){return true;}
-            if(this.target.gender == ""){return true;}
-            if(this.target.generation == ""){return true;}
-            if(this.target.phone == "" || !this.formOnlyNumber){return true;}
- 
-            return false;
         },
 
 

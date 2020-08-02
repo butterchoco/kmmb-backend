@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import moment from 'moment'
 
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
@@ -23,6 +24,12 @@ Vue.use(VueMaterial)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueMaterial)
+
+Vue.filter('formatDate', function(value) {
+  if (value) {
+    return moment(String(value)).format('DD MMMM YYYY')
+  }
+});
 
 let app ='';
 auth.onAuthStateChanged(() => {

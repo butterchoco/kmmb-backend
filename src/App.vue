@@ -34,6 +34,9 @@ table {
     }
   }
 }
+a {
+  cursor: pointer;
+}
 .labelForm{
   color: #1B262C;
 }

@@ -2,7 +2,7 @@
   <v-container>
 
     <div class="mt-5 mb-3">
-      <h1>Selamat Datang Admin {{currentUser.email}}</h1>
+      <h1>Selamat Datang {{currentUser.email}}</h1>
     </div>
 
     <div class="mb-5">
