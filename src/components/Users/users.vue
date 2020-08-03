@@ -20,7 +20,7 @@
       </thead>
       <tbody class="tbody">
           <tr v-for="(user,index) in userList" :key="user.id"  v-b-modal.modal-1 @click="click(user.id)"  class="content">
-              <th scope=row class="th-bottom" v-bind="add()">{{index+1}}</th>
+              <th scope=row class="th-bottom">{{index+1}}</th>
               <td>{{user.namaKetua}}</td>
               <td>{{user.studyProgram}}</td>
               <td>{{user.faculty}}</td>
@@ -71,7 +71,7 @@
           {{target.address1}}
         </div>
 
-        <div v-if="target.address2" class="mb-4">
+        <div v-if="isAddress2Exist" class="mb-4">
           <div class="mb-2 label"><strong class="labelForm">Alamat Lainnya</strong></div>
           {{target.address2}}
         </div>
@@ -186,7 +186,7 @@
         </div>
 
         <!-- Field Bukti Pembayaran -->
-        <div v-if ="target.berkasPembayaran" class="mb-4">
+        <div v-if ="isBuktiPembayaranExist" class="mb-4">
         <div class="mb-2 label"><strong class="labelForm">Bukti Pembayaran</strong></div>
           <a class="linkFile" @click="download(target.berkasPembayaran)">
             {{buktiPembayaran}}
@@ -200,7 +200,7 @@
 
 
         <!-- Field Proposal -->
-        <div v-if ="target.proposal" class="mb-4">
+        <div v-if ="isProposalExist" class="mb-4">
         <div class="mb-2 label"><strong class="labelForm">Proposal</strong></div>
           <a class="linkFile" @click="download(target.proposal)">
             {{proposal}}
@@ -298,7 +298,6 @@ import { db, storage } from '../../firebase/firebase'
     data () {
       return {
         userList: [],
-        counter2: 1,
         target:{},
         errors : [],
         userId:"",
@@ -308,6 +307,9 @@ import { db, storage } from '../../firebase/firebase'
         fileSuratKetMahasiswa3:"",
         buktiPembayaran:"",
         proposal: "",
+        isProposalExist: false,
+        isBuktiPembayaranExist : false,
+        isAddress2Exist : false,
         sizeMember3 : false,
 
   
@@ -399,6 +401,21 @@ import { db, storage } from '../../firebase/firebase'
           this.tanggalLahirKetua = moment(this.target.birthdate).format("DD MMMM YYYY")
           this.buktiPembayaran = this.target.berkasPembayaran.split('/').pop().split('#')[0].split('?')[0];
           this.proposal = this.target.proposal.split('/').pop().split('#')[0].split('?')[0];
+          if(this.proposal){
+            this.isProposalExist = true;
+          }else{
+            this.isProposalExist = false;
+          }
+          if(this.buktiPembayaran){
+            this.isBuktiPembayaranExist = true;
+          }else{
+            this.isBuktiPembayaranExist = false;
+          }
+          if(this.target.address2){
+            this.isAddress2Exist = true;
+          }else{
+            this.isAddress2Exist = false;
+          }
 
           if((this.target.suratKeteranganMahasiswa).length == 3){
             this.sizeMember3 = true;
@@ -438,9 +455,6 @@ import { db, storage } from '../../firebase/firebase'
       },
 
 
-      add(){
-          this.counter2 ++;
-      },
 
       validateAndSubmit(e){
             e.preventDefault();
@@ -450,12 +464,6 @@ import { db, storage } from '../../firebase/firebase'
             }
             if(this.errors.length === 0){
                 if(this.target.address2 != null){
-                    if(this.target.isProposalUploaded == "true"){
-                        this.target.isProposalUploaded = true;
-                    }   
-                    else{
-                        this.target.isProposalUploaded =false;
-                    }
 
                     db.collection('user').doc(this.userId).update({
                         statusVerifikasiPembayaran : this.target.statusVerifikasiPembayaran,
@@ -464,19 +472,6 @@ import { db, storage } from '../../firebase/firebase'
                     });
 
                 }else{
-                    if(this.target.isProposalUploaded == "true"){
-                        this.target.isProposalUploaded = true;
-                    }   
-                    else{
-                        this.target.isProposalUploaded =false;
-                    }
-
-                    if(this.target.isVerified == "true"){
-                        this.target.isVerified = true;
-                    }   
-                    else{
-                        this.target.isVerified =false;
-                    }
 
                     db.collection('user').doc(this.userId).update({
                         statusVerifikasiPembayaran : this.target.statusVerifikasiPembayaran,
