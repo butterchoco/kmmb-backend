@@ -6,11 +6,6 @@
     <h1>Daftar Peserta</h1>
   </div>
 
-  <div class="mb-5">
-    <router-link to="/admin/addUser">
-        <button class="btn save-btn">&#43; Add New User</button>
-    </router-link>
-  </div>
 
   <table class="table table-hover">
       <thead class="table-borderless">
