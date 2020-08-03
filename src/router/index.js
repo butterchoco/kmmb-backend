@@ -9,6 +9,8 @@ import Home from '../views/Home.vue'
 
 import users from "../components/Users/users.vue"
 
+import event from "../components/event/event.vue"
+
 
 
 import AuthLayout from "../components/Auth/AuthLayout.vue"
@@ -46,6 +48,11 @@ Vue.use(Vuetify)
         name:'users',
         path:'users',
         component:users,
+      },
+      {
+        name:'event',
+        path:'event',
+        component:event,
       },
 
     ]
