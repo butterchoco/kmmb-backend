@@ -113,7 +113,8 @@ import {auth ,db} from "../firebase/firebase"
               return false
             }
           }
-        }
+        },
+
     },
 
     methods: {
@@ -127,7 +128,8 @@ import {auth ,db} from "../firebase/firebase"
             this.adminList.push(user);
           })
          
-        })
+        });
+
         
       },
       getCurrentUser() {
