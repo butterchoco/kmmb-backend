@@ -17,7 +17,11 @@
                 <h4 class="card-title">{{event.name}}</h4>
                 <p>{{event.date}}</p>
                 <p class="card-text">{{event.description}}</p>
-                <a href="#" class="btn btn-primary">See Profile</a>
+                <b-btn-group>
+                  <button href="#" class="btn save-btn mr-3" @click="openModalEdit(event.id)">Ubah Event</button>
+                  <button href="#" class="btn btn-light" style="color:#E84A5F">Hapus Event</button>
+                </b-btn-group>
+                
             </div>
         </div>
       </div>
@@ -50,14 +54,19 @@
        
             
             <!-- Field Upload Image -->
-            <b-form-file 
-                multiple 
-                :file-name-formatter="formatNames" 
-                accept="image/*">
-            </b-form-file>
+            <b-form-group>
+              <div class="mb-2 label"><strong class="labelForm">Upload Image</strong></div>
+              <b-form-file 
+                  multiple 
+                  :file-name-formatter="formatNames" 
+                  accept="image/*">
+              </b-form-file>
+            </b-form-group>
+            
 
             <!-- Field Email -->
             <b-form-group>
+              <div class="mb-2 label"><strong class="labelForm">Deskripsi Event</strong></div>
               <b-form-textarea
                 id="textarea"
                 v-model="event.description"
@@ -85,6 +94,84 @@
             </div>
         </div>
     </b-modal>
+    
+    <!-- Modal Edit Event -->
+    <b-modal size="lg" ref="modalEdit" id="modal-2" title="Edit Event" v-bind:hide-footer="true">
+      <div class="card">
+        <div class="card-header"><strong class="labelForm">Formulir Tambah Event</strong></div>
+        <div class="card-body">
+          <b-form @submit.prevent="validateAndSubmitEdit">
+            <!-- Field Nama Event -->
+            <b-form-group>
+              <div class="mb-2 label"><strong class="labelForm">Nama Event</strong></div>
+              <b-form-input
+                class="form-control"
+                v-model="targetEvent.name"
+                id="eventName"
+                placeholder="Nama Event"></b-form-input>
+            </b-form-group>
+
+            <!-- Field tanggal event -->
+            <b-form-group>
+                <div class="mb-2 label"><strong class="labelForm">Tanggal Event</strong></div>
+                <b-form-datepicker id="datepickerEnd-invalid" :state="birthdateValidEdit" class="mb-2" v-model="targetEvent.date"></b-form-datepicker>
+                
+                <b-form-invalid-feedback id="input-live-feedback-end">
+                  Tanggal yang dimasukan tidak valid
+                </b-form-invalid-feedback>
+            </b-form-group>
+       
+            
+            <!-- Field Upload Image -->
+            <b-form-group>
+              <div class="mb-2 label"><strong class="labelForm">Upload Image</strong></div>
+              <b-form-file 
+                multiple 
+                :file-name-formatter="formatNames" 
+                accept="image/*">
+            </b-form-file>
+            </b-form-group>
+            
+            
+
+            <!-- Field Email -->
+            <b-form-group>
+              <div class="mb-2 label"><strong class="labelForm">Deskripsi Event</strong></div>
+              <b-form-textarea
+                id="textarea"
+                v-model="targetEvent.description"
+                placeholder="Masukan deskripsi event"
+                rows="3"
+                max-rows="6"
+                ></b-form-textarea>
+            </b-form-group>
+               
+            <div class="btn-group">
+              <button type="submit" class="btn save-btn mr-2" :disabled=isDisableEdit()>Ubah event</button>
+            </div>
+          </b-form>
+
+        </div>
+
+      </div>
+    </b-modal>
+
+    <b-modal size="lg" ref="modalOk" hide-footer>
+        <div class="container">
+            <div class="d-block text-center">
+              <h4>Event berhasil ditambahkan</h4>
+            </div>
+        </div>
+    </b-modal>
+
+
+    <b-modal size="lg" ref="modalOkEdit" hide-footer>
+        <div class="container">
+            <div class="d-block text-center">
+              <h4>Event berhasil diubah</h4>
+            </div>
+        </div>
+    </b-modal>
 
 
   </v-container>
@@ -106,6 +193,8 @@ import moment from "moment"
             },
             eventList : [],
             headerPhotos:"",
+            eventId : "",
+            targetEvent: {},
         };
     },
 
@@ -117,6 +206,19 @@ import moment from "moment"
             else{
                 var currentDate =moment();
                 if(moment(this.event.date).isBefore(currentDate)){
+                    return false;
+                }
+                return true;
+            }
+        },
+
+        birthdateValidEdit(){
+            if(this.targetEvent.date == ""){
+                return null;
+            }
+            else{
+                var currentDate =moment();
+                if(moment(this.targetEvent.date).isBefore(currentDate)){
                     return false;
                 }
                 return true;
@@ -171,10 +273,35 @@ import moment from "moment"
             }
 
         },
+        validateAndSubmitEdit(e){
+            e.preventDefault();
+            this.errors = [];
+            
+            if(this.errors.length === 0){
+              db.collection('event').doc(this.eventId).update({
+                  name : this.targetEvent.name,
+                  date : this.targetEvent.date,
+                  description : this.targetEvent.description
+              }).then(() => {
+                this.openModalSusksesEdit()
+              })
+            .then(() => {
+                this.openModalSusksesEdit()
+              });
+            }
+
+        },
         openModal() {
             this.$refs['modalOk'].show();
             window.setTimeout(() => {
-                this.$refs['modalAdd'].show();
+                this.$refs['modalAdd'].hide();
+            }, 2000);
+        },
+
+        openModalSusksesEdit() {
+            this.$refs['modalOkEdit'].show();
+            window.setTimeout(() => {
+                this.$refs['modalEdit'].hide();
             }, 2000);
         },
 
@@ -188,6 +315,22 @@ import moment from "moment"
  
             return false;
         },
+
+        isDisableEdit(){
+            if(this.targetEvent.name == ""){return true;}
+            if(this.targetEvent.date == "" || !this.birthdateValidEdit){return true;}
+            if(this.targetEvent.description == ""){return true;}
+ 
+            return false;
+        },
+        openModalEdit(eventId){
+          
+          this.$refs['modalEdit'].show();
+          this.eventId = eventId;
+          db.collection('event').doc(eventId).get().then(doc => {
+            this.targetEvent = doc.data();
+          })
+        }
     },
     created(){
       this.loadEvent();
