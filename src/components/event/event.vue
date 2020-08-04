@@ -103,6 +103,7 @@
         <div class="card-header"><strong class="labelForm">Formulir Tambah Event</strong></div>
         <div class="card-body">
           <b-form @submit.prevent="validateAndSubmitEdit">
+            <b-img-lazy class="mb-4" :src="headerPhotos"></b-img-lazy>
             <!-- Field Nama Event -->
             <b-form-group>
               <div class="mb-2 label"><strong class="labelForm">Nama Event</strong></div>
@@ -131,10 +132,9 @@
                 multiple 
                 :file-name-formatter="formatNames" 
                 accept="image/*"
-                class="mb-2">
-            </b-form-file>
+>
+              </b-form-file>
 
-            <b-img-lazy :src="headerPhotos"></b-img-lazy>
             </b-form-group>
             
             
