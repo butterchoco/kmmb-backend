@@ -151,10 +151,11 @@
                 ></b-form-textarea>
             </b-form-group>
                
-            <div class="btn-group">
-              <button type="submit" class="btn save-btn mr-2" :disabled=isDisableEdit()>Ubah event</button>
-            </div>
+
+            <button type="submit" style="color:white" class="btn btn-block save-btn mb-2" :disabled=isDisableEdit()>Ubah event</button>
+            
           </b-form>
+          <button type="submit" class="btn btn-block btn-light mr-2" v-b-modal.modal-del >Hapus event</button>
 
         </div>
 
@@ -336,6 +337,7 @@ import moment from "moment"
 
         hideModal(){
           this.$refs['modalDelete'].hide();
+          this.$refs['modalEdit'].hide();
         },
 
         batal(){
