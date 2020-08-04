@@ -9,23 +9,25 @@
       <button class="btn save-btn" v-b-modal.modal-1>&#43; Add Event</button>
     </div>
 
-    <div class="row">
-      <div v-for="event in eventList" :key="event.id" class="col-4 col-md-4 col-sm-12">
-        <div class="card" style="width:400px">
-            <img class="card-img-top" :src="headerPhotos" alt="Card image">
-            <div class="card-body">
-                <h4 class="card-title">{{event.name}}</h4>
-                <p>{{event.date}}</p>
-                <p class="card-text">{{event.description}}</p>
-                <b-btn-group>
-                  <button href="#" class="btn save-btn mr-3" @click="openModalEdit(event.id)">Ubah Event</button>
-                  <button href="#" class="btn btn-light" style="color:#E84A5F" @click="openModalDelete(event.id)">Hapus Event</button>
-                </b-btn-group>
+    <table class="table table-hover">
+        <thead class="table-borderless">
+            <tr class="tr-top">
+                <th scope="col">No.</th>
+                <th scope="col">Nama Event</th>
+                <th scope="col">Tanggal Event</th>
+            </tr>
+        </thead>
+        <tbody class="tbody">
+            <tr v-for="(event,index) in eventList" :key="event.id"  v-b-modal.modal-2 @click="click(event.id)"  class="content">
+                <th scope=row class="th-bottom">{{index+1}}</th>
+                <td>{{event.name}}</td>
+                <td>{{event.date}}</td>
                 
-            </div>
-        </div>
-      </div>
-    </div>
+            </tr>
+        </tbody>
+    </table>
+
+    
 
     <b-modal size="lg" ref="modalAdd" id="modal-1" title="Tambah Event" v-bind:hide-footer="true">
       <div class="card">
@@ -128,8 +130,11 @@
               <b-form-file 
                 multiple 
                 :file-name-formatter="formatNames" 
-                accept="image/*">
+                accept="image/*"
+                class="mb-2">
             </b-form-file>
+
+            <b-img-lazy :src="headerPhotos"></b-img-lazy>
             </b-form-group>
             
             
@@ -248,18 +253,26 @@ import moment from "moment"
             event.id = doc.id;
             event.date = moment(doc.data().date).format("DD MMMM YYYY");
             this.eventList.push(event);
-            console.log(event.photos);
-            var gsReference = storage.refFromURL(event.photos[0]);  
-            gsReference.getDownloadURL().then(link => {
-                this.headerPhotos = link;
-            })
+            
           })
          
         });
+        
+      },
+      click(eventId){
+        this.eventId = eventId;
 
+        db.collection('event').doc(this.eventId).get().then(doc => {
+          // console.log(doc.data());
+          this.targetEvent = doc.data();
+          var gsReference = storage.refFromURL(this.targetEvent.photos[0]);  
+          gsReference.getDownloadURL().then(link => {
+              this.headerPhotos = link;
+          })
+          
+        });
         
 
-        
       },
       formatNames(files) {
         if (files.length === 1) {

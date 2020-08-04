@@ -215,21 +215,40 @@
         
 
         <b-form @submit.prevent="validateAndSubmit">
+
+          <!-- Field status verifikasi proposal -->
+          <b-form-group>
+            <div class="mb-2 label"><strong class="labelForm">Status Proposal</strong></div>
+            <b-form-select
+              v-model="target.statusProposal" 
+              class="form-control"
+              v-if="!isStatusProposalCantEdit">
+                <b-form-select-option value="Belum Mengupload">Belum Mengupload</b-form-select-option>
+                <b-form-select-option value="Menunggu Verifikasi">Menunggu Verifikasi</b-form-select-option>
+                <b-form-select-option value="Terverifikasi">Terverifikasi</b-form-select-option>
+                <b-form-select-option value="Ditolak">Ditolak</b-form-select-option>
+                 
+            </b-form-select>
+            <p v-else>{{target.statusProposal}}</p>
+          </b-form-group>      
+
           <!-- Field status verifikasi pembayaran -->
           <b-form-group>
             <div class="mb-2 label"><strong class="labelForm">Status Verifikasi Pembayaran</strong></div>
             <b-form-select
               v-model="target.statusVerifikasiPembayaran" 
-              class="form-control">
+              class="form-control"
+              v-if="!isStatusPembayaranCantEdit">
                 <b-form-select-option value="Belum Membayar">Belum Membayar</b-form-select-option>
-                <b-form-select-option value="Menunggu Pembayaran">Menunggu Pembayaran</b-form-select-option>
+                <b-form-select-option value="Menunggu Verifikasi">Menunggu Verifikasi</b-form-select-option>
                 <b-form-select-option value="Terverifikasi">Terverifikasi</b-form-select-option>
                 <b-form-select-option value="Ditolak">Ditolak</b-form-select-option>
                  
             </b-form-select>
+            <p v-else>{{target.statusVerifikasiPembayaran}}</p>
           </b-form-group>       
 
-          <button style="color:white" type="submit" class="btn save-btn mr-2 btn-block" >Ubah Status Verifikasi Pembayaran</button>
+          <button style="color:white" type="submit" class="btn save-btn mr-2 btn-block" v-if="!isDisable">Ubah Status Peserta</button>
 
         </b-form>
 
@@ -309,8 +328,11 @@ import { db, storage } from '../../firebase/firebase'
         proposal: "",
         isProposalExist: false,
         isBuktiPembayaranExist : false,
+        isStatusPembayaranCantEdit : false,
+        isStatusProposalCantEdit : false,
         isAddress2Exist : false,
         sizeMember3 : false,
+        isDisable : false,
 
   
       }
@@ -373,7 +395,8 @@ import { db, storage } from '../../firebase/firebase'
               return false
             }
           }
-        }
+        },
+ 
     },
 
     methods: {
@@ -427,6 +450,26 @@ import { db, storage } from '../../firebase/firebase'
             this.fileSuratKetMahasiswa1 = this.target.suratKeteranganMahasiswa[0].split('/').pop().split('#')[0].split('?')[0];
             this.fileSuratKetMahasiswa2 = this.target.suratKeteranganMahasiswa[1].split('/').pop().split('#')[0].split('?')[0];
           }
+
+          if(this.target.statusVerifikasiPembayaran == "Terverifikasi" || this.target.statusVerifikasiPembayaran == "Ditolak"){
+            this.isStatusPembayaranCantEdit = true;
+          }
+          else{
+            this.isStatusPembayaranCantEdit = false;
+          }
+          if(this.target.statusProposal == "Terverifikasi" || this.target.statusProposal == "Ditolak"){
+            this.isStatusProposalCantEdit = true;
+          }
+          else{
+            this.isStatusProposalCantEdit = false;
+          }
+          if(this.target.statusProposal == "Terverifikasi" || this.target.statusProposal == "Ditolak" 
+          && this.target.statusVerifikasiPembayaran  == "Terverifikasi" || this.target.statusVerifikasiPembayaran == "Ditolak" ){
+            this.isDisable = true;
+          }
+          else{
+            this.isDisable = false;
+          }
         });
         
 
@@ -454,8 +497,7 @@ import { db, storage } from '../../firebase/firebase'
 
       },
 
-
-
+   
       validateAndSubmit(e){
             e.preventDefault();
             this.errors = [];
@@ -467,6 +509,7 @@ import { db, storage } from '../../firebase/firebase'
 
                     db.collection('user').doc(this.userId).update({
                         statusVerifikasiPembayaran : this.target.statusVerifikasiPembayaran,
+                        statusProposal : this.target.statusProposal
                     }).then(() => {
                         this.openModal()
                     });
@@ -488,6 +531,7 @@ import { db, storage } from '../../firebase/firebase'
             this.$refs['modalOk'].show();
             window.setTimeout(() => {
                this.$refs['modalOk'].hide();
+               this.$refs['modalDetail'].hide();
             }, 2000);
         },
 
