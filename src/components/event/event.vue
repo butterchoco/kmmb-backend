@@ -19,7 +19,7 @@
                 <p class="card-text">{{event.description}}</p>
                 <b-btn-group>
                   <button href="#" class="btn save-btn mr-3" @click="openModalEdit(event.id)">Ubah Event</button>
-                  <button href="#" class="btn btn-light" style="color:#E84A5F">Hapus Event</button>
+                  <button href="#" class="btn btn-light" style="color:#E84A5F" @click="openModalDelete(event.id)">Hapus Event</button>
                 </b-btn-group>
                 
             </div>
@@ -173,6 +173,17 @@
         </div>
     </b-modal>
 
+    <b-modal size="lg" ref="modalDelete" id="modal-del" hide-footer>
+       <div class="detail">
+            <p class="title">Event ini akan dihapus ? </p>
+            <hr>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-danger mr-2" @click="deleteEvent">Delete</button>
+                <button class="btn btn-light" @click="hideModal">Cancel</button>
+            </div>
+        </div>
+  </b-modal>
+
 
   </v-container>
 </template>
@@ -291,6 +302,11 @@ import moment from "moment"
             }
 
         },
+        deleteEvent(){
+            db.collection('event').doc(this.eventId).delete().then(() =>{
+                this.hideModal();
+            })
+        },
         openModal() {
             this.$refs['modalOk'].show();
             window.setTimeout(() => {
@@ -303,6 +319,10 @@ import moment from "moment"
             window.setTimeout(() => {
                 this.$refs['modalEdit'].hide();
             }, 2000);
+        },
+
+        hideModal(){
+          this.$refs['modalDelete'].hide();
         },
 
         batal(){
@@ -330,7 +350,12 @@ import moment from "moment"
           db.collection('event').doc(eventId).get().then(doc => {
             this.targetEvent = doc.data();
           })
-        }
+        },
+        openModalDelete(eventId){
+          
+          this.$refs['modalDelete'].show();
+          this.eventId = eventId;
+        },
     },
     created(){
       this.loadEvent();
