@@ -39,7 +39,7 @@
                 class="form-control"
                 v-model="media.name"
                 id="eventName"
-                placeholder="Nama Event"></b-form-input>
+                placeholder="Nama Media Partner"></b-form-input>
             </b-form-group>
 
             <!-- Field tanggal event -->
@@ -289,46 +289,64 @@ import {db, storage} from "../../firebase/firebase"
                       name:this.media.name,
                       photo : `gs://kmmb-website.appspot.com/images/media-partner/${this.imageData.name}`,
                   }).then(() => {
-                      this.openModal()
+                      this.openModal();
+                      this.uploadValue=0;
+                      
                     });
                 })
               }) 
               
             }
-            this.uploadValue=0;
+            
 
         },
         validateAndSubmitEdit(e){
             e.preventDefault();
             this.errors = [];
-            var filename = this.targetMedia.photo.split('/').pop().split('#')[0].split('?')[0];
-            var target = storage.ref().child('images/media-partner/'+ filename)
+            if(this.imageData != null){
+                var filename = this.targetMedia.photo.split('/').pop().split('#')[0].split('?')[0];
+                var target = storage.ref().child('images/media-partner/'+ filename)
+                target.delete();
 
-            target.delete();
-            
-            if(this.errors.length === 0){
-              const storageRef = storage.ref().child(`images/media-partner/${this.imageData.name}`).put(this.imageData);
-              storageRef.on(`state_changed`, snapshot => {
-                this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-              }, error =>{console.log(error.message)}, () => {
-                this.uploadValue=100;
-                storageRef.snapshot.ref.getDownloadURL().then((url) => {
-                  this.picture = url
-                  db.collection('media-partner').doc(this.mediaId).update({
-                      name : this.targetMedia.name,
-                      photo : `gs://kmmb-website.appspot.com/images/eventImage/${this.imageData.name}`
-                  }).then(() => {
-                    this.openModalSusksesEdit()
-                  })
-                .then(() => {
-                    this.openModalSusksesEdit()
-                  });
-                })
-              }) 
+                if(this.errors.length === 0){
               
+                  const storageRef = storage.ref().child(`images/media-partner/${this.imageData.name}`).put(this.imageData);
+                  storageRef.on(`state_changed`, snapshot => {
+                    this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+                  }, error =>{console.log(error.message)}, () => {
+                    this.uploadValue=100;
+                    storageRef.snapshot.ref.getDownloadURL().then((url) => {
+                      this.picture = url
+                      db.collection('media-partner').doc(this.mediaId).update({
+                          name : this.targetMedia.name,
+                          photo : `gs://kmmb-website.appspot.com/images/media-partner/${this.imageData.name}`
+                      }).then(() => {
+                        this.openModalSusksesEdit()
+                        this.uploadValue=0;
+                      })
+                    .then(() => {
+                        this.openModalSusksesEdit()
+                        this.uploadValue=0;
+                      });
+                    })
+                  }) 
+                  
+                }
             }
-            this.uploadValue=0;
+            else{
+              db.collection('media-partner').doc(this.mediaId).update({
+                    name : this.targetMedia.name,
 
+                }).then(() => {
+                  this.openModalSusksesEdit()
+                  this.uploadValue=0;
+                })
+              .then(() => {
+                  this.openModalSusksesEdit()
+                  this.uploadValue=0;
+                });
+            }
+           
         },
         deleteEvent(){
           var filename = this.targetMedia.photo.split('/').pop().split('#')[0].split('?')[0];
@@ -369,7 +387,7 @@ import {db, storage} from "../../firebase/firebase"
         },
 
         isDisableEdit(){
-            if(this.media.name == ""){return true;}
+            if(this.targetMedia.name == ""){return true;}
  
             return false;
         },

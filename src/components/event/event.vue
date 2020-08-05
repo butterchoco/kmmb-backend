@@ -325,46 +325,70 @@ import moment from "moment"
                       photo : `gs://kmmb-website.appspot.com/images/eventImage/${this.imageData.name}`,
                   }).then(() => {
                       this.openModal()
+                      this.uploadValue=0;
                     });
                 })
               }) 
               
             }
-            this.uploadValue=0;
+
 
         },
         validateAndSubmitEdit(e){
             e.preventDefault();
             this.errors = [];
-            var filename = this.targetEvent.photo.split('/').pop().split('#')[0].split('?')[0];
-            var target = storage.ref().child('images/eventImage/'+ filename)
+            if(this.imageData != null){
+                var filename = this.targetEvent.photo.split('/').pop().split('#')[0].split('?')[0];
+                var target = storage.ref().child('images/eventImage/'+ filename)
+                target.delete();
 
-            target.delete();
-            
-            if(this.errors.length === 0){
-              const storageRef = storage.ref().child(`images/eventImage/${this.imageData.name}`).put(this.imageData);
-              storageRef.on(`state_changed`, snapshot => {
-                this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-              }, error =>{console.log(error.message)}, () => {
-                this.uploadValue=100;
-                storageRef.snapshot.ref.getDownloadURL().then((url) => {
-                  this.picture = url
-                  db.collection('event').doc(this.eventId).update({
-                      name : this.targetEvent.name,
-                      date : this.targetEvent.date,
-                      description : this.targetEvent.description,
-                      photo : `gs://kmmb-website.appspot.com/images/eventImage/${this.imageData.name}`
-                  }).then(() => {
-                    this.openModalSusksesEdit()
-                  })
-                .then(() => {
-                    this.openModalSusksesEdit()
-                  });
-                })
-              }) 
+                if(this.errors.length === 0){
               
+                  const storageRef = storage.ref().child(`images/eventImage/${this.imageData.name}`).put(this.imageData);
+                  storageRef.on(`state_changed`, snapshot => {
+                    this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+                  }, error =>{console.log(error.message)}, () => {
+                    this.uploadValue=100;
+                    storageRef.snapshot.ref.getDownloadURL().then((url) => {
+                      this.picture = url
+                      db.collection('event').doc(this.eventId).update({
+                          name : this.targetEvent.name,
+                          date : this.targetEvent.date,
+                          description : this.targetEvent.description,
+                          photo : `gs://kmmb-website.appspot.com/images/eventImage/${this.imageData.name}`
+                      }).then(() => {
+                        this.openModalSusksesEdit()
+                        this.uploadValue=0;
+                      })
+                    .then(() => {
+                        this.openModalSusksesEdit()
+                        this.uploadValue=0;
+                      });
+                    })
+                  }) 
+                  
+                }
             }
-            this.uploadValue=0;
+            else{
+              db.collection('event').doc(this.eventId).update({
+                    name : this.targetEvent.name,
+                    date : this.targetEvent.date,
+                    description : this.targetEvent.description,
+                }).then(() => {
+                  this.openModalSusksesEdit()
+                  this.uploadValue=0;
+                })
+              .then(() => {
+                  this.openModalSusksesEdit()
+                  this.uploadValue=0;
+                });
+            }
+            
+
+            
+            
+            
+            
 
         },
         deleteEvent(){
