@@ -6,7 +6,7 @@
     </div>
 
     <div class="mb-5">
-      <button class="btn save-btn" v-b-modal.modal-1>&#43; Add Admin</button>
+      <button class="btn save-btn" v-b-modal.modal-1>&#43; Tambah Admin</button>
     </div>
 
     <div class="row">

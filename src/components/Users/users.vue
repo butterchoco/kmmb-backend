@@ -377,8 +377,8 @@
             <p class="title">User ini akan dihapus ? </p>
             <hr>
             <div class="btn-group">
-                <button type="submit" class="btn btn-danger mr-2" @click="deleteUser()">Delete</button>
-                <button class="btn btn-light" @click="hideModal">Cancel</button>
+                <button type="submit" class="btn btn-danger mr-2" @click="deleteUser()">Hapus</button>
+                <button class="btn btn-light" @click="hideModal">Batal</button>
             </div>
         </div>
   </b-modal>

@@ -64,7 +64,7 @@
                   </v-list-item-content>
               </v-list-item>
 
-              <v-list-item  router :to="'/admin'">
+              <v-list-item  router :to="'/admin/sponsor'">
                   <v-list-item-action>
                       <v-icon class="white--text">mdi-cash-multiple</v-icon>
                   </v-list-item-action>

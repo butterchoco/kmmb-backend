@@ -6,7 +6,7 @@
     </div>
 
     <div>
-      <button class="btn save-btn" v-b-modal.modal-1>&#43; Add Media Partner</button>
+      <button class="btn save-btn" v-b-modal.modal-1>&#43; Tambah Media Partner</button>
     </div>
 
     <table class="table table-hover">
@@ -195,8 +195,8 @@
             <p class="title">Media partner ini akan dihapus ? </p>
             <hr>
             <div class="btn-group">
-                <button type="submit" class="btn btn-danger mr-2" @click="deleteEvent">Delete</button>
-                <button class="btn btn-light" @click="hideModal">Cancel</button>
+                <button type="submit" class="btn btn-danger mr-2" @click="deleteEvent">Hapus</button>
+                <button class="btn btn-light" @click="hideModal">Batal</button>
             </div>
         </div>
   </b-modal>
@@ -209,7 +209,7 @@
 import {db, storage} from "../../firebase/firebase"
 // import moment from "moment"
   export default {
-    name:"event",
+    name:"media",
     data(){
         return {
             media:{

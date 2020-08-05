@@ -13,6 +13,8 @@ import event from "../components/event/event.vue"
 
 import media from "../components/media/media.vue"
 
+import sponsor from "../components/sponsor/sponsor.vue"
+
 
 
 import AuthLayout from "../components/Auth/AuthLayout.vue"
@@ -60,6 +62,11 @@ Vue.use(Vuetify)
         name:'media',
         path:'media',
         component:media,
+      },
+      {
+        name:'sponsor',
+        path:'sponsor',
+        component:sponsor,
       },
 
     ]
