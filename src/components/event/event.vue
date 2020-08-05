@@ -59,10 +59,19 @@
             <b-form-group>
               <div class="mb-2 label"><strong class="labelForm">Upload Image</strong></div>
               <b-form-file 
-                  multiple 
-                  :file-name-formatter="formatNames" 
+                  :file-name-formatter="formatNames"
+                  @change="previewImage" 
                   accept="image/*">
               </b-form-file>
+              <div>
+                <p>Progress: {{uploadValue.toFixed()+"%"}}
+                <progress id="progress" :value="uploadValue" max="100" ></progress>  </p>
+              </div>
+              <br>
+              <!-- <div v-if="imageData!=null">
+                  <img class="preview" :src="picture">
+                  
+              </div> -->
             </b-form-group>
             
 
@@ -129,11 +138,15 @@
             <b-form-group>
               <div class="mb-2 label"><strong class="labelForm">Upload Image</strong></div>
               <b-form-file 
-                multiple 
                 :file-name-formatter="formatNames" 
                 accept="image/*"
->
+                 @change="previewImage">
               </b-form-file>
+              <div>
+                <p>Progress: {{uploadValue.toFixed()+"%"}}
+                <progress id="progress" :value="uploadValue" max="100" ></progress>  </p>
+              </div>
+              <br>
 
             </b-form-group>
             
@@ -212,6 +225,9 @@ import moment from "moment"
             headerPhotos:"",
             eventId : "",
             targetEvent: {},
+            imageData : null,
+            picture : null,
+            uploadValue :0,
         };
     },
 
@@ -245,6 +261,11 @@ import moment from "moment"
     },
 
     methods: {
+      previewImage(event) {
+        this.uploadValue=0;
+        this.picture=null;
+        this.imageData = event.target.files[0];
+      },
       loadEvent() {
         var eventRef = db.collection('event');
         eventRef.onSnapshot(snap => {
@@ -266,7 +287,7 @@ import moment from "moment"
         db.collection('event').doc(this.eventId).get().then(doc => {
           // console.log(doc.data());
           this.targetEvent = doc.data();
-          var gsReference = storage.refFromURL(this.targetEvent.photos[0]);  
+          var gsReference = storage.refFromURL(this.targetEvent.photo);  
           gsReference.getDownloadURL().then(link => {
               this.headerPhotos = link;
           })
@@ -288,13 +309,25 @@ import moment from "moment"
             this.errors = [];
             
             if(this.errors.length === 0){
-              db.collection('event').add({
-                name:this.event.name,
-                date:this.event.date,
-                description:this.event.description,
-            }).then(() => {
-                this.openModal()
-              });
+              this.picture=null;
+              const storageRef = storage.ref().child(`images/eventImage/${this.imageData.name}`).put(this.imageData);
+              storageRef.on(`state_changed`, snapshot => {
+                this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+              }, error =>{console.log(error.message)}, () => {
+                this.uploadValue=100;
+                storageRef.snapshot.ref.getDownloadURL().then((url) => {
+                  this.picture = url
+                  db.collection('event').add({
+                      name:this.event.name,
+                      date:this.event.date,
+                      description:this.event.description,
+                      photo : url,
+                  }).then(() => {
+                      this.openModal()
+                    });
+                })
+              }) 
+              
             }
 
         },
@@ -303,16 +336,27 @@ import moment from "moment"
             this.errors = [];
             
             if(this.errors.length === 0){
-              db.collection('event').doc(this.eventId).update({
-                  name : this.targetEvent.name,
-                  date : this.targetEvent.date,
-                  description : this.targetEvent.description
-              }).then(() => {
-                this.openModalSusksesEdit()
-              })
-            .then(() => {
-                this.openModalSusksesEdit()
-              });
+              const storageRef = storage.ref().child(`images/eventImage/${this.imageData.name}`).put(this.imageData);
+              storageRef.on(`state_changed`, snapshot => {
+                this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+              }, error =>{console.log(error.message)}, () => {
+                this.uploadValue=100;
+                storageRef.snapshot.ref.getDownloadURL().then((url) => {
+                  this.picture = url
+                  db.collection('event').doc(this.eventId).update({
+                      name : this.targetEvent.name,
+                      date : this.targetEvent.date,
+                      description : this.targetEvent.description,
+                      photo : url
+                  }).then(() => {
+                    this.openModalSusksesEdit()
+                  })
+                .then(() => {
+                    this.openModalSusksesEdit()
+                  });
+                })
+              }) 
+              
             }
 
         },
@@ -331,8 +375,9 @@ import moment from "moment"
         openModalSusksesEdit() {
             this.$refs['modalOkEdit'].show();
             window.setTimeout(() => {
-                this.$refs['modalEdit'].hide();
+                this.$refs['modalOkEdit'].hide();
             }, 2000);
+            this.$refs['modalEdit'].hide();
         },
 
         hideModal(){
