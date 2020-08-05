@@ -55,7 +55,7 @@
                   </v-list-item-content>
               </v-list-item>
 
-              <v-list-item  router :to="'/admin'">
+              <v-list-item  router :to="'/admin/'">
                   <v-list-item-action>
                       <v-icon class="white--text">mdi-account-tie-voice</v-icon>
                   </v-list-item-action>
@@ -73,7 +73,7 @@
                   </v-list-item-content>
               </v-list-item>
 
-              <v-list-item  router :to="'/admin'">
+              <v-list-item  router :to="'/admin/media'">
                   <v-list-item-action>
                       <v-icon class="white--text">mdi-newspaper-variant</v-icon>
                   </v-list-item-action>

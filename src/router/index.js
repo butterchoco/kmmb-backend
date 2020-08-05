@@ -11,6 +11,8 @@ import users from "../components/Users/users.vue"
 
 import event from "../components/event/event.vue"
 
+import media from "../components/media/media.vue"
+
 
 
 import AuthLayout from "../components/Auth/AuthLayout.vue"
@@ -53,6 +55,11 @@ Vue.use(Vuetify)
         name:'event',
         path:'event',
         component:event,
+      },
+      {
+        name:'media',
+        path:'media',
+        component:media,
       },
 
     ]
