@@ -279,7 +279,8 @@ import moment from "moment"
           })
          
         });
-        
+        var storageRef = storage.ref().child('images').child('546FO3IJN82I2LWLV87YV.mp4_snapshot_21.14_[2019.06.28_22.26.16].png');
+        console.log(storageRef.location.path)
       },
       click(eventId){
         this.eventId = eventId;
@@ -321,7 +322,7 @@ import moment from "moment"
                       name:this.event.name,
                       date:this.event.date,
                       description:this.event.description,
-                      photo : url,
+                      photo : `gs://kmmb-website.appspot.com/images/eventImage/${this.imageData.name}`,
                   }).then(() => {
                       this.openModal()
                     });
@@ -329,6 +330,7 @@ import moment from "moment"
               }) 
               
             }
+            this.uploadValue=0;
 
         },
         validateAndSubmitEdit(e){
@@ -347,7 +349,7 @@ import moment from "moment"
                       name : this.targetEvent.name,
                       date : this.targetEvent.date,
                       description : this.targetEvent.description,
-                      photo : url
+                      photo : `gs://kmmb-website.appspot.com/images/eventImage/${this.imageData.name}`
                   }).then(() => {
                     this.openModalSusksesEdit()
                   })
@@ -358,6 +360,7 @@ import moment from "moment"
               }) 
               
             }
+            this.uploadValue=0;
 
         },
         deleteEvent(){
