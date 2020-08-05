@@ -279,8 +279,8 @@ import moment from "moment"
           })
          
         });
-        var storageRef = storage.ref().child('images').child('546FO3IJN82I2LWLV87YV.mp4_snapshot_21.14_[2019.06.28_22.26.16].png');
-        console.log(storageRef.location.path)
+        // var storageRef = storage.ref().child('images').child('546FO3IJN82I2LWLV87YV.mp4_snapshot_21.14_[2019.06.28_22.26.16].png');
+        // console.log(storageRef.location.path)
       },
       click(eventId){
         this.eventId = eventId;
@@ -336,6 +336,12 @@ import moment from "moment"
         validateAndSubmitEdit(e){
             e.preventDefault();
             this.errors = [];
+            var filename = this.targetEvent.photo.split('/').pop().split('#')[0].split('?')[0];
+            console.log(filename)
+            var target = storage.ref().child('images/eventImage/'+ filename)
+            console.log(target)
+
+            target.delete();
             
             if(this.errors.length === 0){
               const storageRef = storage.ref().child(`images/eventImage/${this.imageData.name}`).put(this.imageData);
