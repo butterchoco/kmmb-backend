@@ -82,7 +82,7 @@
                   </v-list-item-content>
               </v-list-item>
 
-              <v-list-item  router :to="'/admin'">
+              <v-list-item  router :to="'/admin/timeline'">
                   <v-list-item-action>
                       <v-icon class="white--text">mdi-timeline-check</v-icon>
                   </v-list-item-action>

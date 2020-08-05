@@ -6,7 +6,7 @@
     </div>
 
     <div>
-      <button class="btn save-btn mb-5" v-b-modal.modal-1>&#43; Tambah Media Partner</button>
+      <button class="btn save-btn" v-b-modal.modal-1>&#43; Tambah Media Partner</button>
     </div>
 
     <table class="table table-hover">
@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody class="tbody">
-            <tr v-for="(media,index) in mediaList" :key="media.id"  v-b-modal.modal-2 @click="click(media.id)"  class="content">
+            <tr v-for="(media,index) in speakerList" :key="media.id"  v-b-modal.modal-2 @click="click(media.id)"  class="content">
                 <th scope=row class="th-bottom">{{index+1}}</th>
                 <td>{{media.name}}</td>
                 
@@ -209,14 +209,14 @@
 import {db, storage} from "../../firebase/firebase"
 // import moment from "moment"
   export default {
-    name:"media",
+    name:"speaker",
     data(){
         return {
-            media:{
+            speaker:{
               name:"",
-              photo:"",
+              profesi:"",
             },
-            mediaList : [],
+            speakerList : [],
             headerPhotos:"",
             mediaId : "",
             targetMedia: {},
@@ -237,11 +237,11 @@ import {db, storage} from "../../firebase/firebase"
       loadMedia() {
         var mediaRef = db.collection('media-partner');
         mediaRef.onSnapshot(snap => {
-          this.mediaList = [];
+          this.speakerList = [];
           snap.forEach(doc => {
             var media =doc.data();
             media.id = doc.id;
-            this.mediaList.push(media);
+            this.speakerList.push(media);
             
           })
          

@@ -6,7 +6,7 @@
     </div>
 
     <div>
-      <button class="btn save-btn" v-b-modal.modal-1>&#43; Tambah Event</button>
+      <button class="btn save-btn mb-5" v-b-modal.modal-1>&#43; Tambah Event</button>
     </div>
 
     <table class="table table-hover">

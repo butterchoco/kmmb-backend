@@ -15,6 +15,8 @@ import media from "../components/media/media.vue"
 
 import sponsor from "../components/sponsor/sponsor.vue"
 
+import timeline from "../components/timeline/timeline.vue"
+
 
 
 import AuthLayout from "../components/Auth/AuthLayout.vue"
@@ -67,6 +69,11 @@ Vue.use(Vuetify)
         name:'sponsor',
         path:'sponsor',
         component:sponsor,
+      },
+      {
+        name:'timeline',
+        path:'timeline',
+        component:timeline,
       },
 
     ]
