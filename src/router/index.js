@@ -17,6 +17,8 @@ import sponsor from "../components/sponsor/sponsor.vue"
 
 import timeline from "../components/timeline/timeline.vue"
 
+import speaker from "../components/speaker/speaker.vue"
+
 
 
 import AuthLayout from "../components/Auth/AuthLayout.vue"
@@ -74,6 +76,11 @@ Vue.use(Vuetify)
         name:'timeline',
         path:'timeline',
         component:timeline,
+      },
+      {
+        name:'speaker',
+        path:'speaker',
+        component:speaker,
       },
 
     ]

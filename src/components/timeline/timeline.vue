@@ -29,9 +29,9 @@
 
     
 
-    <b-modal size="lg" ref="modalAdd" id="modal-1" title="Tambah Event" v-bind:hide-footer="true">
+    <b-modal size="lg" ref="modalAdd" id="modal-1" title="Tambah Kegiatan" v-bind:hide-footer="true">
       <div class="card">
-        <div class="card-header"><strong class="labelForm">Formulir Tambah Timeline</strong></div>
+        <div class="card-header"><strong class="labelForm">Formulir Tambah Kegiatan</strong></div>
         <div class="card-body">
           <b-form @submit.prevent="validateAndSubmit">
             <!-- Field Nama Event -->
