@@ -337,9 +337,7 @@ import moment from "moment"
             e.preventDefault();
             this.errors = [];
             var filename = this.targetEvent.photo.split('/').pop().split('#')[0].split('?')[0];
-            console.log(filename)
             var target = storage.ref().child('images/eventImage/'+ filename)
-            console.log(target)
 
             target.delete();
             
@@ -370,6 +368,10 @@ import moment from "moment"
 
         },
         deleteEvent(){
+          var filename = this.targetEvent.photo.split('/').pop().split('#')[0].split('?')[0];
+          var target = storage.ref().child('images/eventImage/'+ filename)
+
+          target.delete();
             db.collection('event').doc(this.eventId).delete().then(() =>{
                 this.hideModal();
             })
