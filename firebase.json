@@ -7,9 +7,15 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "site": "kmmb-backend",
-    "public": "out",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+    "site": "kmmb-24072020",
+    "public": "dist",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   },
   "storage": {
     "rules": "storage.rules"
