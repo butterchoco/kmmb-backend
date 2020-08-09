@@ -59,11 +59,12 @@
               <b-form-input class="form-control" v-model="admin.email" id="email" placeholder="email@email.com"></b-form-input>
             </b-form-group>
                
-            <div class="btn-group">
-              <button type="submit" class="btn save-btn mr-2" :disabled=isDisable()>Tambah User</button>
-              <button class="btn btn-light" @click="batal">Batal</button>
-            </div>
+
+            <button type="submit" style="color:white" class="btn btn-block save-btn mr-2" :disabled=isDisable()>Tambah User</button>
+ 
+            
           </b-form>
+          <button class="btn btn-block btn-light mt-3" @click="batal">Batal</button>
 
         </div>
 
@@ -119,9 +120,9 @@ import {auth ,db} from "../firebase/firebase"
 
     methods: {
       loadAdmin() {
-        var userRef = db.collection('admin');
+        var userRef =  db.collection('admin');
         userRef.onSnapshot(snap => {
-          this.userList = [];
+          this.adminList = [];
           snap.forEach(doc => {
             var user =doc.data();
             user.id = doc.id;
@@ -148,6 +149,7 @@ import {auth ,db} from "../firebase/firebase"
                 email:this.admin.email,
                 phone:this.admin.phone,
             }).then(() => {
+                this.admin = {}
                 this.openModal()
               });
             }
@@ -156,12 +158,13 @@ import {auth ,db} from "../firebase/firebase"
         openModal() {
             this.$refs['modalOk'].show();
             window.setTimeout(() => {
-                this.$refs['modalAdd'].show();
+                this.$refs['modalOk'].hide();
+                this.$refs['modalAdd'].hide();
             }, 2000);
         },
 
         batal(){
-          this.$refs['modalOk'].hide();
+          this.$refs['modalAdd'].hide();
         },
         isDisable(){
             if(this.admin.nama == ""){return true;}
