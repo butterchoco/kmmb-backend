@@ -7,9 +7,12 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "site": "kmmb-24072020",
     "public": "dist",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
     "rewrites": [
       {
         "source": "**",

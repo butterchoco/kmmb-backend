@@ -28,17 +28,15 @@
         <button
           @click="login"
           class="btn btn-lg btn-primary btn-block btn-signin"
-          type="submit">
+          type="submit"
+        >
           Log in
-          </button>
-        
+        </button>
       </form>
       <!-- /form -->
-    
     </div>
     <!-- /card-container -->
   </div>
-
 </template>
 
 <script>
@@ -55,30 +53,39 @@ export default {
       password: "",
     };
   },
-  
+
   methods:{
       login(e) {
           e.preventDefault();
           auth.signInWithEmailAndPassword(this.email, this.password).then(
-              (user) =>{
-              console.log(user.user.email);
-              alert('Your are now sign in');
-              this.$router.push('/admin/dashboard');
+              async ({user}) => {
+              let isAdmin = false;
+              if (user) {
+                isAdmin = await user.getIdTokenResult().then((idTokenResult) => {
+                  return idTokenResult.claims.admin;
+                });
+              }
+              if (isAdmin) {
+                alert('Akun berhasil masuk !');
+                this.$router.push('/admin/dashboard');
+              } else {
+                alert('Akun admin tersebut tidak terdaftar di dalam sistem !');
+              }
           }).catch(function (error) {
               // Handle Errors here.
               var errorCode = error.code;
               var errorMessage = error.message;
               if (errorCode == 'auth/invalid-email') {
-                  alert('Email is invalid');
+                  alert('Email tidak valid !');
               }else {
                   alert(errorMessage);
               }
-              
+
               console.log(error);
           });
-  
+
       },
-  
+
   },
 };
 </script>
@@ -206,5 +213,4 @@ export default {
   -webkit-transition: all 0.218s;
   transition: all 0.218s;
 }
-
 </style>

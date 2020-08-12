@@ -6,8 +6,9 @@
     :right="$vuetify.rtl"
     style="background-color:#1B262C"
     app
-    mobile-break-point="960"
-    width="350"
+    mobile-breakpoint="960"
+    expand-on-hover
+    width="240"
     >
         <v-list
         dense

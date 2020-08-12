@@ -406,7 +406,7 @@
 
 <script>
 // import moment from 'moment'
-import axios from 'axios'
+// import axios from 'axios'
 import { db, storage } from '../../firebase/firebase'
 // import router from '../../router'
 
@@ -546,6 +546,7 @@ import { db, storage } from '../../firebase/firebase'
         db.collection('user').doc(this.userId).get().then(doc => {
           // console.log(doc.data());
           this.target = doc.data();
+          console.log(this.target)
           this.namaKetua = this.target.ketua.nama_lengkap
           this.fakultasKetua = this.target.ketua.fakultas
           this.institusiKetua = this.target.ketua.institusi
@@ -555,7 +556,7 @@ import { db, storage } from '../../firebase/firebase'
           this.genderKetua = this.target.ketua.jenis_kelamin
           this.alamatKetua = this.target.ketua.alamat
           this.angkatanKetua = this.target.ketua.angkatan
-          var gsReference = storage.refFromURL(this.target.ketua.pas_foto);  
+          var gsReference = storage.ref(this.target.ketua.pas_foto);  
           gsReference.getDownloadURL().then(link => {
               this.pasFotoKetua = link;
           })
@@ -571,7 +572,7 @@ import { db, storage } from '../../firebase/firebase'
           this.genderAnggota1 = this.target.anggota_1.jenis_kelamin
           this.alamatAnggota1 = this.target.anggota_1.alamat
           this.angkatanAnggota1 = this.target.anggota_1.angkatan
-          var gsReferenceA1 = storage.refFromURL(this.target.anggota_1.pas_foto);  
+          var gsReferenceA1 = storage.ref(this.target.anggota_1.pas_foto);  
           gsReferenceA1.getDownloadURL().then(link => {
               this.pasFotoAnggota1 = link;
           })
@@ -587,19 +588,19 @@ import { db, storage } from '../../firebase/firebase'
           this.genderAnggota2 = this.target.anggota_2.jenis_kelamin
           this.alamatAnggota2 = this.target.anggota_2.alamat
           this.angkatanAnggota2 = this.target.anggota_2.angkatan
-          var gsReferenceA2 = storage.refFromURL(this.target.anggota_2.pas_foto);  
+          var gsReferenceA2 = storage.ref(this.target.anggota_2.pas_foto);  
           gsReferenceA2.getDownloadURL().then(link => {
               this.pasFotoAnggota2 = link;
           })
           this.suratKeteranganMahasiswaA2 = this.target.anggota_2.surat_keterangan_mahasiswa
 
 
-          this.fileSuratKetMahasiswa1 = this.suratKeteranganMahasiswaKetua.split('/').pop().split('#')[0].split('?')[0];
-          this.fileSuratKetMahasiswa2 = this.suratKeteranganMahasiswaA1.split('/').pop().split('#')[0].split('?')[0];
-          this.fileSuratKetMahasiswa3 = this.suratKeteranganMahasiswaA2.split('/').pop().split('#')[0].split('?')[0];
+          this.fileSuratKetMahasiswa1 = this.suratKeteranganMahasiswaKetua;
+          this.fileSuratKetMahasiswa2 = this.suratKeteranganMahasiswaA1;
+          this.fileSuratKetMahasiswa3 = this.suratKeteranganMahasiswaA2;
 
-          this.buktiPembayaran = this.target.bukti_pembayaran.split('/').pop().split('#')[0].split('?')[0];
-          this.proposal = this.target.proposal.split('/').pop().split('#')[0].split('?')[0];
+          this.buktiPembayaran = this.target.bukti_pembayaran;
+          this.proposal = this.target.proposal;
           if(this.proposal){
             this.isProposalExist = true;
           }else{
@@ -653,22 +654,23 @@ import { db, storage } from '../../firebase/firebase'
 
       download(url){
         
-        var gsReference = storage.refFromURL(url);  
+        var gsReference = storage.ref(url);  
         gsReference.getDownloadURL().then(link => {
-          axios({
-                url: link,
-                method : 'GET',
-                responseType : 'blob',
-            }).then((response) =>  {
-                var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+          // axios({
+          //       url: link,
+          //       method : 'GET',
+                // responseType : 'blob',
+            // }).then((response) =>  {
+                // var fileURL = window.URL.createObjectURL(new Blob([response.data]));
                 var fileLink = document.createElement('a');
-
-                fileLink.href = fileURL;
-                fileLink.setAttribute('download', url.split('/').pop().split('#')[0].split('?')[0]);
+                console.log(link)
+                fileLink.href = link;
+                // fileLink.href = fileURL;
+                fileLink.setAttribute('download', url);
                 document.body.appendChild(fileLink);
 
                 fileLink.click();
-          })
+          // })
         })     
 
       },
