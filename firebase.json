@@ -7,6 +7,7 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
+    "target": "kmmb-24072020",
     "public": "dist",
     "ignore": [
       "firebase.json",

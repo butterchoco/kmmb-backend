@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "kmmb-website"
+  },
+  "targets": {
+    "kmmb-website": {
+      "hosting": {
+        "kmmb-24072020": [
+          "kmmb-24072020"
+        ]
+      }
+    }
   }
 }
