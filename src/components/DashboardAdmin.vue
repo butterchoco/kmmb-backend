@@ -90,7 +90,7 @@
               :disabled="isDisable()"
             >Tambah User</button>
           </b-form>
-          <button class="btn btn-block btn-light mt-3" @click="batal">Batal</button>
+          <button class="btn btn-block btn-light mt-3" @click="cancel">Batal</button>
         </div>
       </div>
     </b-modal>
@@ -167,7 +167,7 @@ export default {
       }, 2000);
     },
 
-    batal() {
+    cancel() {
       this.$refs["modalAdd"].hide();
     },
     isDisable() {
