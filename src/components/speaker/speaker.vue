@@ -32,7 +32,8 @@
         <div class="card-header"><strong class="labelForm">Formulir Tambah Speaker</strong></div>
         <div class="card-body">
           <b-form @submit.prevent="validateAndSubmit">
-            <!-- Field Nama Event -->
+
+            <!-- Field Nama Sponsor -->
             <b-form-group>
               <div class="mb-2 label"><strong class="labelForm">Nama Speaker</strong></div>
               <b-form-input
@@ -42,7 +43,7 @@
                 placeholder="Nama Speaker"></b-form-input>
             </b-form-group>
 
-            <!-- Field Nama Event -->
+            <!-- Field Profesi -->
             <b-form-group>
               <div class="mb-2 label"><strong class="labelForm">Profesi</strong></div>
               <b-form-input
@@ -52,17 +53,6 @@
                 placeholder="Profesi Speaker"></b-form-input>
             </b-form-group>
 
-            <!-- Field tanggal event -->
-            <!-- <b-form-group>
-                <div class="mb-2 label"><strong class="labelForm">Tanggal Event</strong></div>
-                <b-form-datepicker id="datepickerEnd-invalid" :state="birthdateValid" class="mb-2" v-model="event.date"></b-form-datepicker>
-                
-                <b-form-invalid-feedback id="input-live-feedback-end">
-                  Tanggal yang dimasukan tidak valid
-                </b-form-invalid-feedback>
-            </b-form-group> -->
-       
-            
             <!-- Field Upload Image -->
             <b-form-group>
               <div class="mb-2 label"><strong class="labelForm">Upload Image</strong></div>
@@ -76,25 +66,8 @@
                 <progress id="progress" :value="uploadValue" max="100" ></progress>  </p>
               </div>
               <br>
-              <!-- <div v-if="imageData!=null">
-                  <img class="preview" :src="picture">
-                  
-              </div> -->
             </b-form-group>
             
-
-            <!-- Field Email -->
-            <!-- <b-form-group>
-              <div class="mb-2 label"><strong class="labelForm">Deskripsi Event</strong></div>
-              <b-form-textarea
-                id="textarea"
-                v-model="event.description"
-                placeholder="Masukan deskripsi event"
-                rows="3"
-                max-rows="6"
-                ></b-form-textarea>
-            </b-form-group> -->
-               
             <div class="btn-group">
               <button type="submit" class="btn save-btn mr-2" :disabled=isDisable()>Tambah Speaker</button>
               <button class="btn btn-light" @click="batal">Batal</button>
@@ -114,14 +87,14 @@
         </div>
     </b-modal>
     
-    <!-- Modal Edit Event -->
+    <!-- Modal Edit Sponsor -->
     <b-modal size="lg" ref="modalEdit" id="modal-2" title="Edit Media Partner" v-bind:hide-footer="true">
       <div class="card">
         <div class="card-header"><strong class="labelForm">Formulir Ubah Speaker</strong></div>
         <div class="card-body">
           <b-form @submit.prevent="validateAndSubmitEdit">
             <b-img-lazy class="mb-4" :src="headerPhotos"></b-img-lazy>
-            <!-- Field Nama Event -->
+            <!-- Field Nama Sponsor -->
             <b-form-group>
               <div class="mb-2 label"><strong class="labelForm">Nama Speaker</strong></div>
               <b-form-input
@@ -140,17 +113,6 @@
                 placeholder="Profesi Speaker"></b-form-input>
             </b-form-group>
 
-            <!-- Field tanggal event -->
-            <!-- <b-form-group>
-                <div class="mb-2 label"><strong class="labelForm">Tanggal Event</strong></div>
-                <b-form-datepicker id="datepickerEnd-invalid" :state="birthdateValidEdit" class="mb-2" v-model="targetSpeaker.date"></b-form-datepicker>
-                
-                <b-form-invalid-feedback id="input-live-feedback-end">
-                  Tanggal yang dimasukan tidak valid
-                </b-form-invalid-feedback>
-            </b-form-group> -->
-       
-            
             <!-- Field Upload Image -->
             <b-form-group>
               <div class="mb-2 label"><strong class="labelForm">Upload Image</strong></div>
@@ -164,29 +126,10 @@
                 <progress id="progress" :value="uploadValue" max="100" ></progress>  </p>
               </div>
               <br>
-
             </b-form-group>
-            
-            
-
-            <!-- Field Email -->
-            <!-- <b-form-group>
-              <div class="mb-2 label"><strong class="labelForm">Deskripsi Event</strong></div>
-              <b-form-textarea
-                id="textarea"
-                v-model="targetSpeaker.description"
-                placeholder="Masukan deskripsi event"
-                rows="3"
-                max-rows="6"
-                ></b-form-textarea>
-            </b-form-group> -->
-               
-
             <button type="submit" style="color:white" class="btn btn-block save-btn mb-2" :disabled=isDisableEdit()>Ubah Speaker</button>
-            
+            <button type="submit" class="btn btn-block btn-light mr-2" v-b-modal.modal-del >Hapus Speaker</button>
           </b-form>
-          <button type="submit" class="btn btn-block btn-light mr-2" v-b-modal.modal-del >Hapus Speaker</button>
-
         </div>
 
       </div>

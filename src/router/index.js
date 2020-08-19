@@ -9,13 +9,9 @@ import Home from "../views/Home.vue";
 
 import users from "../components/Users/users.vue";
 
-import event from "../components/event/event.vue";
-
 import media from "../components/media/media.vue";
 
 import sponsor from "../components/sponsor/sponsor.vue";
-
-import timeline from "../components/timeline/timeline.vue";
 
 import speaker from "../components/speaker/speaker.vue";
 
@@ -52,11 +48,6 @@ const routes = [
         component: users,
       },
       {
-        name: "event",
-        path: "event",
-        component: event,
-      },
-      {
         name: "media",
         path: "media",
         component: media,
@@ -65,11 +56,6 @@ const routes = [
         name: "sponsor",
         path: "sponsor",
         component: sponsor,
-      },
-      {
-        name: "timeline",
-        path: "timeline",
-        component: timeline,
       },
       {
         name: "speaker",

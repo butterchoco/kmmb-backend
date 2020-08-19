@@ -47,15 +47,6 @@
                   </v-list-item-content>
               </v-list-item>
 
-              <v-list-item  router :to="'/admin/event'">
-                  <v-list-item-action>
-                      <v-icon class="white--text">mdi-calendar</v-icon>
-                  </v-list-item-action>
-                  <v-list-item-content>
-                      <v-list-item-title class="white--text">Event</v-list-item-title>
-                  </v-list-item-content>
-              </v-list-item>
-
               <v-list-item  router :to="'/admin/speaker'">
                   <v-list-item-action>
                       <v-icon class="white--text">mdi-account-tie-voice</v-icon>
@@ -82,15 +73,6 @@
                       <v-list-item-title class="white--text">Media Partner</v-list-item-title>
                   </v-list-item-content>
               </v-list-item>
-
-              <v-list-item  router :to="'/admin/timeline'">
-                  <v-list-item-action>
-                      <v-icon class="white--text">mdi-timeline-check</v-icon>
-                  </v-list-item-action>
-                  <v-list-item-content>
-                      <v-list-item-title class="white--text">Timeline</v-list-item-title>
-                  </v-list-item-content>
-              </v-list-item>          
 
             </v-list-item-group>
             <v-divider style="background-color:#ffffff"></v-divider>
