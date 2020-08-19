@@ -421,7 +421,7 @@ import moment from "moment"
         },
 
         batal(){
-          this.$refs['modalOk'].hide();
+          this.$refs['modalAdd'].hide();
         },
         isDisable(){
             if(this.event.name == ""){return true;}

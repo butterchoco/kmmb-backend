@@ -26,9 +26,9 @@
 
             <div>
               <div class="mb-2 label">
-                <strong class="labelForm">Phone</strong>
+                <strong class="labelForm">Password</strong>
               </div>
-              {{user.phone}}
+              {{user.password}}
             </div>
           </div>
         </div>
@@ -51,21 +51,7 @@
                 class="form-control"
                 v-model="admin.nama"
                 id="fullName"
-                placeholder="Nama Lengkap"
-              ></b-form-input>
-            </b-form-group>
-
-            <!-- Field Phone -->
-            <b-form-group>
-              <div class="mb-2 label">
-                <strong class="labelForm">Nomor Telpon *</strong>
-              </div>
-              <b-form-input
-                class="form-control"
-                v-model="admin.phone"
-                id="phone"
-                placeholder="08xx"
-                :state="validateStateNumber(admin.phone)"
+                placeholder="Masukkan nama lengkap"
               ></b-form-input>
             </b-form-group>
 
@@ -78,8 +64,38 @@
                 class="form-control"
                 v-model="admin.email"
                 id="email"
-                placeholder="email@email.com"
+                placeholder="Masukkan email"
                 :state="validateStateEmail(admin.email)"
+              ></b-form-input>
+            </b-form-group>
+
+            <!-- Field Password -->
+            <b-form-group description="Password minimal 8 karakter dan setidaknya satu huruf besar, huruf kecil, dan angka.">
+              <div class="mb-2 label">
+                <strong class="labelForm">Password *</strong>
+              </div>
+              <b-form-input
+                class="form-control"
+                v-model="admin.password"
+                id="password"
+                placeholder="Masukkan password"
+                type="password"
+                :state="validateStatePassword(admin.password)"
+              ></b-form-input>
+            </b-form-group>
+
+            <!-- Field Confirmation Password -->
+            <b-form-group>
+              <div class="mb-2 label">
+                <strong class="labelForm">Konfirmasi Ulang Password *</strong>
+              </div>
+              <b-form-input
+                class="form-control"
+                v-model="admin.confirmationPassword"
+                id="confirmartionPassword"
+                placeholder="Masukkan ulang password"
+                type="password"
+                :state="validateStateConfirmationPassword(admin.confirmationPassword)"
               ></b-form-input>
             </b-form-group>
 
@@ -107,6 +123,10 @@
 
 <script>
 import { auth, db, functions } from "../firebase/firebase";
+const strongPasswordRegex = new RegExp(
+  "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})"
+);
+
 export default {
   name: "dashboard",
   data() {
@@ -115,7 +135,8 @@ export default {
       admin: {
         nama: "",
         email: "",
-        phone: "",
+        password: "",
+        confirmationPassword: "",
       },
       adminList: [],
     };
@@ -129,9 +150,7 @@ export default {
         snap.forEach((doc) => {
           var userData = doc.data();
           userData.id = doc.id;
-          if (this.currentUser.email != userData.email) {
-            this.adminList.push(userData);
-          }
+          this.adminList.push(userData);
         });
       });
     },
@@ -141,23 +160,26 @@ export default {
     },
     validateAndSubmit(e) {
       e.preventDefault();
-      this.errors = [];
-
-      if (this.errors.length === 0) {
-        db.collection("admin")
-          .add({
-            nama: this.admin.nama,
-            email: this.admin.email,
-            phone: this.admin.phone,
-          })
-          .then(() => {
-            const addAdminRole = functions.httpsCallable("addAdminRole");
-            addAdminRole({ email: this.admin.email }).then(() => {
-              this.admin = {};
-              this.openModal();
-            })
+      auth.createUserWithEmailAndPassword(this.admin.email, this.admin.password).then(({user}) => {
+        this.createAdminDocument(user);
+      }).catch((error) => {
+        alert(error.message);
+      })
+    },
+    createAdminDocument(user) {
+      db.collection("admin")
+        .doc(user.uid).set({
+          nama: this.admin.nama,
+          email: this.admin.email,
+          password: this.admin.password,
+        })
+        .then(() => {
+          const addAdminRole = functions.httpsCallable("addAdminRole");
+          addAdminRole({ email: this.admin.email }).then(() => {
+            this.admin = {};
+            this.openModal();
           });
-      }
+        });
     },
     openModal() {
       this.$refs["modalOk"].show();
@@ -173,20 +195,26 @@ export default {
     isDisable() {
       return (
         this.isEmpty(this.admin.nama) ||
-        this.isEmpty(this.admin.phone) ||
+        this.isEmpty(this.admin.password) ||
         this.isEmpty(this.admin.email) ||
-        !this.validateNumber(this.admin.phone) ||
+        !this.validatePassword(this.admin.password) ||
+        !this.validateConfirmationPassword(this.admin.confirmationPassword) ||
         !this.validateEmail(this.admin.email)
       );
     },
-    validateStateNumber(field) {
-      var regex = /^[0-9]+$/;
-      if (field === "") return null;
-      return regex.test(field);
+    validateConfirmationPassword(field) {
+      return field === this.admin.password;
     },
-    validateNumber(field) {
-      var regex = /^[0-9]+$/;
-      return regex.test(field);
+    validateStateConfirmationPassword(field) {
+      if (field === "") return null;
+      return field === this.admin.password;
+    },
+    validateStatePassword(field) {
+      if (field === "") return null;
+      return strongPasswordRegex.test(field);
+    },
+    validatePassword(field) {
+      return strongPasswordRegex.test(field);
     },
     validateStateEmail(field) {
       if (field === "" || field === undefined) return null;

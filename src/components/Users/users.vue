@@ -4,7 +4,8 @@
       <h1>Daftar Peserta</h1>
     </div>
 
-    <table class="table table-hover">
+    <p v-if="userList.length === 0">Belum ada peserta terdaftar.</p>
+    <table v-else class="table table-hover">
       <thead class="table-borderless">
         <tr class="tr-top">
           <th scope="col">No.</th>
