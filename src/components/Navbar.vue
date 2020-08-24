@@ -77,13 +77,13 @@
             </v-list-item-group>
             <v-divider style="background-color:#ffffff"></v-divider>
             <v-list-item-group>
-              <v-list-item style="border:1px solid white;">
+              <v-list-item @click="logout" style="border:1px solid white;">
                 <v-list-item-action>
                   <v-icon class="white-text" style="color:#ffffff">mdi-power</v-icon>
                 </v-list-item-action>
                 
                 <v-list-item-content>
-                      <v-list-item-title @click="logout" class="white--text" style="">Logout</v-list-item-title>
+                      <v-list-item-title class="white--text" style="">Logout</v-list-item-title>
                   </v-list-item-content>
               </v-list-item>
             </v-list-item-group>
