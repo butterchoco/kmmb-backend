@@ -127,11 +127,10 @@
             <div class="mb-2 label">
               <strong class="labelForm">Surat Keterangan Mahasiswa</strong>
             </div>
-            <div>
-              <a
-                class="linkFile"
-                @click="download(suratKeteranganMahasiswaKetua)"
-              >{{fileSuratKetMahasiswa1}}</a>
+            <div v-if="suratKeteranganMahasiswaKetua !== ''">
+              <a class="linkFile" @click="download(suratKeteranganMahasiswaKetua)">
+                <v-btn color="purple">Download</v-btn>
+              </a>
             </div>
           </div>
 
@@ -228,7 +227,7 @@
                   <div class="mb-2 label">
                     <strong class="labelForm">Surat Keterangan Mahasiswa</strong>
                   </div>
-                  <div>
+                  <div v-if="suratKeteranganMahasiswaA1 !== ''">
                     <a class="linkFile" @click="download(suratKeteranganMahasiswaA1)">
                       <v-btn color="purple">Download</v-btn>
                     </a>
@@ -325,7 +324,7 @@
                   <div class="mb-2 label">
                     <strong class="labelForm">Surat Keterangan Mahasiswa</strong>
                   </div>
-                  <div>
+                  <div v-if="suratKeteranganMahasiswaA2 !== ''">
                     <a class="linkFile" @click="download(suratKeteranganMahasiswaA2)">
                       <v-btn color="purple">Download</v-btn>
                     </a>
@@ -548,7 +547,7 @@ export default {
         .doc(this.userId)
         .get()
         .then((doc) => {
-          // console.log(doc.data());
+          console.log(doc.data());
           this.target = doc.data();
           if (this.target.ketua === null) return;
           else if (this.target.ketua.surat_keterangan_mahasiswa === null)
@@ -566,7 +565,7 @@ export default {
           gsReference.getDownloadURL().then((link) => {
             this.pasFotoKetua = link;
           });
-          this.suratKeteranganMahasiswaKetua = this.target.ketua.surat_keterangan_mahasiswa_aktif;
+          this.suratKeteranganMahasiswaKetua = this.target.ketua.surat_keterangan_mahasiswa;
 
           this.namaAnggota1 = this.target.anggota_1.nama_lengkap;
           this.fakultasAnggota1 = this.target.anggota_1.fakultas;
@@ -662,7 +661,11 @@ export default {
           const fileName = urlSplit[urlSplit.length - 1];
           const dataSplit = response.data.type.split("/");
           const extension = dataSplit[dataSplit.length - 1];
-          fileLink.setAttribute("download", `${fileName}.${extension}`);
+          if (extension == "x-zip-compressed") {
+            fileLink.setAttribute("download", `${fileName}.zip`);
+          } else {
+            fileLink.setAttribute("download", `${fileName}.${extension}`);
+          }
           document.body.appendChild(fileLink);
           console.log(fileLink);
 
